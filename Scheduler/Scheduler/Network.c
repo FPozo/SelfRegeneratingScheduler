@@ -1,52 +1,25 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                                                     *
- *  Link.c                                                                                                             *
+ *  Network.c                                                                                                          *
  *  Self-Regenerating Scheduler                                                                                        *
  *                                                                                                                     *
- *  Created by Francisco Pozo on 15/08/17.                                                                             *
+ *  Created by Francisco Pozo on 15/09/17.                                                                             *
  *  Copyright © 2017 Francisco Pozo. All rights reserved.                                                              *
  *                                                                                                                     *
- *  Description in Link.h                                                                                              *
+ *  Description in Network.h                                                                                           *
  *                                                                                                                     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "Link.h"
+#include "Network.h"
 
                                                     /* VARIABLES */
 
+
+int num_frames;                 // Number of frames in the network
+int num_links;                  // Number of links in the network
+Frame *frames;                  // Array with all the frames in the network
+Link *links;                    // Array with all the links in the network
+long long int hyperperiod;      // Hyperperiod of the network schedule in ns
+long long int hop_delay;        // Time to wait to relay a frame after being received
+
                                                     /* FUNCTIONS */
-
-int init_link(Link *link_pt) {
-    
-    link_pt->speed = -1;
-    link_pt->type = wired;
-    return 1;
-}
-
-int set_link(Link *link_pt, int speed, LinkType type) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    
-    link_pt->speed = speed;
-    link_pt->type = type;
-    return 1;
-}
-
-int get_link_speed(Link *link_pt) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    
-    return link_pt->speed;
-}
-
-LinkType get_link_type(Link *link_pt) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    return link_pt->type;
-}

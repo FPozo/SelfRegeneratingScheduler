@@ -1,52 +1,31 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                                                     *
- *  Link.c                                                                                                             *
+ *  Frame.c                                                                                                            *
  *  Self-Regenerating Scheduler                                                                                        *
  *                                                                                                                     *
- *  Created by Francisco Pozo on 15/08/17.                                                                             *
+ *  Created by Francisco Pozo on 15/09/17.                                                                             *
  *  Copyright © 2017 Francisco Pozo. All rights reserved.                                                              *
  *                                                                                                                     *
- *  Description in Link.h                                                                                              *
+ *  Description in Frame.h                                                                                             *
  *                                                                                                                     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "Link.h"
+#include "Frame.h"
 
                                                     /* VARIABLES */
 
                                                     /* FUNCTIONS */
 
-int init_link(Link *link_pt) {
+int init_frame(Frame *frame_pt) {
     
-    link_pt->speed = -1;
-    link_pt->type = wired;
+    frame_pt->deadline = -1;
+    frame_pt->period = -1;
+    frame_pt->size = -1;
+    frame_pt->num_paths = -1;
+    frame_pt->num_splits = -1;
+    frame_pt->path_array_ls = NULL;
+    frame_pt->split_array_ls = NULL;
+    frame_pt->offset_ls = NULL;
+    frame_pt->offset_hash = NULL;
     return 1;
-}
-
-int set_link(Link *link_pt, int speed, LinkType type) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    
-    link_pt->speed = speed;
-    link_pt->type = type;
-    return 1;
-}
-
-int get_link_speed(Link *link_pt) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    
-    return link_pt->speed;
-}
-
-LinkType get_link_type(Link *link_pt) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    return link_pt->type;
 }

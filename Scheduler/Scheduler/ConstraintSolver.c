@@ -1,52 +1,21 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                                                     *
- *  Link.c                                                                                                             *
+ *  ConstraintSolver.c                                                                                                 *
  *  Self-Regenerating Scheduler                                                                                        *
  *                                                                                                                     *
- *  Created by Francisco Pozo on 15/08/17.                                                                             *
+ *  Created by Francisco Pozo on 15/09/17.                                                                             *
  *  Copyright © 2017 Francisco Pozo. All rights reserved.                                                              *
  *                                                                                                                     *
- *  Description in Link.h                                                                                              *
+ *  Description in ConstraintSolver.h                                                                                  *
  *                                                                                                                     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "Link.h"
+#include "ConstraintSolver.h"
+#include <yices.h>
 
                                                     /* VARIABLES */
 
+context_t *logical_context;             // Yices context where the constraints are saved to be solved
+model_t *schedule_model;                // Model where to save the solution that yices find when the context is SAT
+
                                                     /* FUNCTIONS */
-
-int init_link(Link *link_pt) {
-    
-    link_pt->speed = -1;
-    link_pt->type = wired;
-    return 1;
-}
-
-int set_link(Link *link_pt, int speed, LinkType type) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    
-    link_pt->speed = speed;
-    link_pt->type = type;
-    return 1;
-}
-
-int get_link_speed(Link *link_pt) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    
-    return link_pt->speed;
-}
-
-LinkType get_link_type(Link *link_pt) {
-    
-    if (link_pt == NULL) {
-        return 0;
-    }
-    return link_pt->type;
-}

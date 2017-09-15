@@ -18,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Scheduler.xcodeproj; path = Scheduler/Scheduler.xcodeproj; sourceTree = "<group>"; };
+		607C846C1F6BDC74001DBE0B /* Network */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Network; sourceTree = "<group>"; };
 		607D46E51F6ACAB4009BD03E /* SelfRegSched.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = SelfRegSched.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,6 +34,7 @@
 		607D46DA1F6ACA90009BD03E = {
 			isa = PBXGroup;
 			children = (
+				607C846C1F6BDC74001DBE0B /* Network */,
 				607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */,
 				607D46E51F6ACAB4009BD03E /* SelfRegSched.py */,
 			);

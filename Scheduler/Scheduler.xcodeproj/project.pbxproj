@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		607C84571F6BB40E001DBE0B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84561F6BB40E001DBE0B /* main.c */; };
 		607C84651F6BB4E8001DBE0B /* Link.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84631F6BB4E8001DBE0B /* Link.c */; };
+		607C84681F6BBE97001DBE0B /* Frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84661F6BBE97001DBE0B /* Frame.c */; };
+		607C846B1F6BD3DB001DBE0B /* Network.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84691F6BD3DB001DBE0B /* Network.c */; };
+		607C846F1F6BF157001DBE0B /* ConstraintSolver.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C846D1F6BF157001DBE0B /* ConstraintSolver.c */; };
+		607C84721F6BF3E7001DBE0B /* Synthesizer.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84701F6BF3E7001DBE0B /* Synthesizer.c */; };
+		607C84751F6BF5A8001DBE0B /* IOInterface.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84731F6BF5A8001DBE0B /* IOInterface.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +33,16 @@
 		607C84561F6BB40E001DBE0B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		607C84631F6BB4E8001DBE0B /* Link.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Link.c; sourceTree = "<group>"; };
 		607C84641F6BB4E8001DBE0B /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
+		607C84661F6BBE97001DBE0B /* Frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Frame.c; sourceTree = "<group>"; };
+		607C84671F6BBE97001DBE0B /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
+		607C84691F6BD3DB001DBE0B /* Network.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Network.c; sourceTree = "<group>"; };
+		607C846A1F6BD3DB001DBE0B /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
+		607C846D1F6BF157001DBE0B /* ConstraintSolver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConstraintSolver.c; sourceTree = "<group>"; };
+		607C846E1F6BF157001DBE0B /* ConstraintSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstraintSolver.h; sourceTree = "<group>"; };
+		607C84701F6BF3E7001DBE0B /* Synthesizer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Synthesizer.c; sourceTree = "<group>"; };
+		607C84711F6BF3E7001DBE0B /* Synthesizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Synthesizer.h; sourceTree = "<group>"; };
+		607C84731F6BF5A8001DBE0B /* IOInterface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IOInterface.c; sourceTree = "<group>"; };
+		607C84741F6BF5A8001DBE0B /* IOInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOInterface.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +78,16 @@
 				607C84561F6BB40E001DBE0B /* main.c */,
 				607C84631F6BB4E8001DBE0B /* Link.c */,
 				607C84641F6BB4E8001DBE0B /* Link.h */,
+				607C84661F6BBE97001DBE0B /* Frame.c */,
+				607C84671F6BBE97001DBE0B /* Frame.h */,
+				607C84691F6BD3DB001DBE0B /* Network.c */,
+				607C846A1F6BD3DB001DBE0B /* Network.h */,
+				607C846D1F6BF157001DBE0B /* ConstraintSolver.c */,
+				607C846E1F6BF157001DBE0B /* ConstraintSolver.h */,
+				607C84701F6BF3E7001DBE0B /* Synthesizer.c */,
+				607C84711F6BF3E7001DBE0B /* Synthesizer.h */,
+				607C84731F6BF5A8001DBE0B /* IOInterface.c */,
+				607C84741F6BF5A8001DBE0B /* IOInterface.h */,
 			);
 			path = Scheduler;
 			sourceTree = "<group>";
@@ -125,8 +150,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				607C84751F6BF5A8001DBE0B /* IOInterface.c in Sources */,
+				607C846B1F6BD3DB001DBE0B /* Network.c in Sources */,
+				607C84681F6BBE97001DBE0B /* Frame.c in Sources */,
+				607C84721F6BF3E7001DBE0B /* Synthesizer.c in Sources */,
 				607C84571F6BB40E001DBE0B /* main.c in Sources */,
 				607C84651F6BB4E8001DBE0B /* Link.c in Sources */,
+				607C846F1F6BF157001DBE0B /* ConstraintSolver.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +256,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = H6335V3A36;
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/include/libxml2/**",
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CFLAGS = "-l/usr/include/lbxml2";
+				OTHER_LDFLAGS = (
+					"-lyices",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -234,6 +274,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = H6335V3A36;
+				HEADER_SEARCH_PATHS = (
+					"/usr/local/include/libxml2/**",
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_CFLAGS = "-l/usr/include/lbxml2";
+				OTHER_LDFLAGS = (
+					"-lyices",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
