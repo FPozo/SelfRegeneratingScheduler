@@ -6,104 +6,134 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXContainerItemProxy section */
-		607C84611F6BB40F001DBE0B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 607C84531F6BB40E001DBE0B;
-			remoteInfo = Scheduler;
+/* Begin PBXBuildFile section */
+		607C84571F6BB40E001DBE0B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84561F6BB40E001DBE0B /* main.c */; };
+		607C84651F6BB4E8001DBE0B /* Link.c in Sources */ = {isa = PBXBuildFile; fileRef = 607C84631F6BB4E8001DBE0B /* Link.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		607C84511F6BB40E001DBE0B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
-/* End PBXContainerItemProxy section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Scheduler.xcodeproj; path = Scheduler/Scheduler.xcodeproj; sourceTree = "<group>"; };
-		607D46E51F6ACAB4009BD03E /* SelfRegSched.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = SelfRegSched.py; sourceTree = "<group>"; };
+		607C84531F6BB40E001DBE0B /* Scheduler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Scheduler; sourceTree = BUILT_PRODUCTS_DIR; };
+		607C84561F6BB40E001DBE0B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		607C84631F6BB4E8001DBE0B /* Link.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Link.c; sourceTree = "<group>"; };
+		607C84641F6BB4E8001DBE0B /* Link.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		607C84501F6BB40E001DBE0B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
-		607C845E1F6BB40E001DBE0B /* Products */ = {
+		607C844A1F6BB40E001DBE0B = {
 			isa = PBXGroup;
 			children = (
-				607C84621F6BB40F001DBE0B /* Scheduler */,
+				607C84551F6BB40E001DBE0B /* Scheduler */,
+				607C84541F6BB40E001DBE0B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		607C84541F6BB40E001DBE0B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				607C84531F6BB40E001DBE0B /* Scheduler */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		607D46DA1F6ACA90009BD03E = {
+		607C84551F6BB40E001DBE0B /* Scheduler */ = {
 			isa = PBXGroup;
 			children = (
-				607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */,
-				607D46E51F6ACAB4009BD03E /* SelfRegSched.py */,
+				607C84561F6BB40E001DBE0B /* main.c */,
+				607C84631F6BB4E8001DBE0B /* Link.c */,
+				607C84641F6BB4E8001DBE0B /* Link.h */,
 			);
+			path = Scheduler;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
-/* Begin PBXLegacyTarget section */
-		607D46DF1F6ACA90009BD03E /* Self-Regenerating Scheduler */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = 607D46E21F6ACA90009BD03E /* Build configuration list for PBXLegacyTarget "Self-Regenerating Scheduler" */;
+/* Begin PBXNativeTarget section */
+		607C84521F6BB40E001DBE0B /* Scheduler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 607C845A1F6BB40E001DBE0B /* Build configuration list for PBXNativeTarget "Scheduler" */;
 			buildPhases = (
+				607C844F1F6BB40E001DBE0B /* Sources */,
+				607C84501F6BB40E001DBE0B /* Frameworks */,
+				607C84511F6BB40E001DBE0B /* CopyFiles */,
 			);
-			buildToolPath = /Users/fpo01/anaconda/bin/python36;
+			buildRules = (
+			);
 			dependencies = (
 			);
-			name = "Self-Regenerating Scheduler";
-			passBuildSettingsInEnvironment = 1;
-			productName = "Self-Regenerating Scheduler";
+			name = Scheduler;
+			productName = Scheduler;
+			productReference = 607C84531F6BB40E001DBE0B /* Scheduler */;
+			productType = "com.apple.product-type.tool";
 		};
-/* End PBXLegacyTarget section */
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		607D46DB1F6ACA90009BD03E /* Project object */ = {
+		607C844B1F6BB40E001DBE0B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Francisco Pozo";
 				TargetAttributes = {
-					607D46DF1F6ACA90009BD03E = {
+					607C84521F6BB40E001DBE0B = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = H6335V3A36;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 607D46DE1F6ACA90009BD03E /* Build configuration list for PBXProject "Self-Regenerating Scheduler" */;
+			buildConfigurationList = 607C844E1F6BB40E001DBE0B /* Build configuration list for PBXProject "Scheduler" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 607D46DA1F6ACA90009BD03E;
+			mainGroup = 607C844A1F6BB40E001DBE0B;
+			productRefGroup = 607C84541F6BB40E001DBE0B /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 607C845E1F6BB40E001DBE0B /* Products */;
-					ProjectRef = 607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
-				607D46DF1F6ACA90009BD03E /* Self-Regenerating Scheduler */,
+				607C84521F6BB40E001DBE0B /* Scheduler */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		607C84621F6BB40F001DBE0B /* Scheduler */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = Scheduler;
-			remoteRef = 607C84611F6BB40F001DBE0B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
+/* Begin PBXSourcesBuildPhase section */
+		607C844F1F6BB40E001DBE0B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				607C84571F6BB40E001DBE0B /* main.c in Sources */,
+				607C84651F6BB4E8001DBE0B /* Link.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXReferenceProxy section */
+/* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		607D46E01F6ACA90009BD03E /* Debug */ = {
+		607C84581F6BB40E001DBE0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -125,6 +155,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -143,12 +174,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		607D46E11F6ACA90009BD03E /* Release */ = {
+		607C84591F6BB40E001DBE0B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -170,6 +203,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -182,31 +216,24 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
-		607D46E31F6ACA90009BD03E /* Debug */ = {
+		607C845B1F6BB40E001DBE0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = H6335V3A36;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		607D46E41F6ACA90009BD03E /* Release */ = {
+		607C845C1F6BB40E001DBE0B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = H6335V3A36;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -214,25 +241,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		607D46DE1F6ACA90009BD03E /* Build configuration list for PBXProject "Self-Regenerating Scheduler" */ = {
+		607C844E1F6BB40E001DBE0B /* Build configuration list for PBXProject "Scheduler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				607D46E01F6ACA90009BD03E /* Debug */,
-				607D46E11F6ACA90009BD03E /* Release */,
+				607C84581F6BB40E001DBE0B /* Debug */,
+				607C84591F6BB40E001DBE0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607D46E21F6ACA90009BD03E /* Build configuration list for PBXLegacyTarget "Self-Regenerating Scheduler" */ = {
+		607C845A1F6BB40E001DBE0B /* Build configuration list for PBXNativeTarget "Scheduler" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				607D46E31F6ACA90009BD03E /* Debug */,
-				607D46E41F6ACA90009BD03E /* Release */,
+				607C845B1F6BB40E001DBE0B /* Debug */,
+				607C845C1F6BB40E001DBE0B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 607D46DB1F6ACA90009BD03E /* Project object */;
+	rootObject = 607C844B1F6BB40E001DBE0B /* Project object */;
 }
