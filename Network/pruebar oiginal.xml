@@ -2,14 +2,22 @@
 <Network>
    <GeneralInformation>
       <NumberFrames>10</NumberFrames>
+      <NumberDependencies>0</NumberDependencies>
       <NumberSwitches>4</NumberSwitches>
       <NumberEndSystems>3</NumberEndSystems>
       <NumberLinks>12</NumberLinks>
-      <MinimumTimeSwitch>1</MinimumTimeSwitch>
+      <NumberCollisionDomains>24</NumberCollisionDomains>
+      <SensingControlPeriod>500000000</SensingControlPeriod>
+      <SensingControlTime>100000</SensingControlTime>
+      <ReplicaPolicy>Spread</ReplicaPolicy>
+      <ReplicaInterval>10000</ReplicaInterval>
+      <MinimumTimeSwitch>1000</MinimumTimeSwitch>
+      <MaximumTimeSwitch>10000</MaximumTimeSwitch>
       <HyperPeriod>1600000</HyperPeriod>
       <Utilization>0.04072916666666667</Utilization>
       <MaximumLinkUtilization>0.10625</MaximumLinkUtilization>
       <FrameInstances>82</FrameInstances>
+      <Replicas>1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1</Replicas>
    </GeneralInformation>
    <NetworkDescription>
       <Nodes>
@@ -147,6 +155,32 @@
             <Destination>4</Destination>
          </Link>
       </Links>
+      <CollisionDomains>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+         <CollisionDomain/>
+      </CollisionDomains>
    </NetworkDescription>
    <TrafficInformation>
       <Frames>

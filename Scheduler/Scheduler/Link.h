@@ -38,12 +38,11 @@ typedef struct Link {
 
                                                 /* CODE DEFINITIONS */
 
-
 /**
- Saves the space of the link with a malloc
+ Saves the space of the link for when a malloc is needed
 
  @param link_pt pointer to the link
- @return 1 if successful, 0 otherwise
+ @return 0 if successful, -1 otherwise
  */
 int init_link(Link *link_pt);
 
@@ -54,7 +53,7 @@ int init_link(Link *link_pt);
  @param link_pt pointer to the link to change
  @param speed desired speed
  @param type desired link type (wired or wireless)
- @return 1 if successful, 0 otherwise
+ @return 0 if doing correctly, -1 otherwise
  */
 int set_link(Link *link_pt, int speed, LinkType type);
 
@@ -63,7 +62,7 @@ int set_link(Link *link_pt, int speed, LinkType type);
  Gets the speed of the link
 
  @param link_pt pointer to the link to change
- @return the speed of the given link, 0 otherwise
+ @return the speed of the given link, -1 otherwise
  */
 int get_link_speed(Link *link_pt);
 

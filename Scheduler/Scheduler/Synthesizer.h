@@ -23,3 +23,8 @@
 #include <stdio.h>
 
 #endif /* Synthesizer_h */
+
+                                                /* STRUCT DEFINITIONS */
+
+
+                                                /* CODE DEFINITIONS */

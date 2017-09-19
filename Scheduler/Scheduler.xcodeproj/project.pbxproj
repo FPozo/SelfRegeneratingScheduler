@@ -261,7 +261,7 @@
 					/usr/local/include,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				OTHER_CFLAGS = "-l/usr/include/lbxml2";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-lyices",
 					"-lxml2",
@@ -279,7 +279,7 @@
 					/usr/local/include,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				OTHER_CFLAGS = "-l/usr/include/lbxml2";
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-lyices",
 					"-lxml2",

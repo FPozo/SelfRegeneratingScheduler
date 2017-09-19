@@ -17,3 +17,8 @@
 #include <stdio.h>
 
 #endif /* ConstraintSolver_h */
+
+                                                /* STRUCT DEFINITIONS */
+
+
+                                                /* CODE DEFINITIONS */

@@ -18,4 +18,6 @@
 context_t *logical_context;             // Yices context where the constraints are saved to be solved
 model_t *schedule_model;                // Model where to save the solution that yices find when the context is SAT
 
+                                                /* AUXILIAR FUNCTIONS */
+
                                                     /* FUNCTIONS */

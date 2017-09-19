@@ -11,3 +11,9 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "Synthesizer.h"
+
+                                                    /* VARIABLES */
+
+                                                /* AUXILIAR FUNCTIONS */
+
+                                                    /* FUNCTIONS */

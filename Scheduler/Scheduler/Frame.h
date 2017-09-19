@@ -57,7 +57,7 @@ typedef struct Path {
 typedef struct Split {
     Offset *offset_pt;                  // Pointer to the offset struct in the linked list of the specific link
     int link;                           // Identifier of the link in the split
-    struct Split *next_path_pt;         // Pointer to the next link in the split
+    struct Split *next_split_pt;        // Pointer to the next link in the split
 }Split;
 
 /**
@@ -70,10 +70,10 @@ typedef struct Frame {
     long long int deadline;             // Deadline of the frame in ns
     Path *path_array_ls;                // Array of root pointers to the path linked list (size is num_paths)
     int num_paths;                      // Number of paths in the frame
-    Path *split_array_ls;               // Array of root pointers to the split linked list (size is num_splits)
+    Split *split_array_ls;              // Array of root pointers to the split linked list (size is num_splits)
     int num_splits;                     // Number of splits in the frame
     Offset *offset_ls;                  // Pointer to the roof of the offsets linked list
-    int *offset_hash;                   // Array that stores the offsets with index the link identifier (to accelerate)
+    Offset **offset_hash;               // Array that stores the offsets with index the link identifier (to accelerate)
 }Frame;
 
                                                 /* CODE DEFINITIONS */
@@ -83,6 +83,78 @@ typedef struct Frame {
  Init all the values of the frame to avoid unwanted values when malloc
 
  @param frame_pt Pointer to the frame to init
- @return 1 if init is correct, 0 otherwise
+ @return 0 if init is correct, -1 otherwise
  */
 int init_frame(Frame *frame_pt);
+
+/**
+ Init the size of the array of hashes to speed up offsets allocation
+
+ @param frame_pt pointer to the frame
+ @param num_links number of links in the network = size of the array
+ @return 0 if done correctly, -1 otherwise
+ */
+int init_hash(Frame *frame_pt, int num_links);
+
+/**
+ Set the period of the given frame
+
+ @param frame_pt pointer of the frame to add the period
+ @param period long long int with the period in ns
+ */
+void set_period(Frame *frame_pt, long long int period);
+
+/**
+ Set the deadline of the given frame
+ 
+ @param frame_pt pointer of the frame to add the deadline
+ @param deadline long long int with the deadline in ns
+ */
+void set_deadline(Frame *frame_pt, long long int deadline);
+
+/**
+ Set the size of the given frame
+ 
+ @param frame_pt pointer of the frame to add the size
+ @param size long long int with the size in bytes
+ */
+void set_size(Frame *frame_pt, int size);
+
+/**
+ Set the number of paths in the given frame and allocate memory to store the roots of the linked lists
+
+ @param frame_pt pointer to the frame
+ @param num_paths number of paths that will have the frame
+ */
+void set_num_paths(Frame *frame_pt, int num_paths);
+
+/**
+ Add a new link of the path to the given path linked list pointer.
+ We also use this function to add new offsets and link them to the new path and the hash acceleration table
+
+ @param frame_pt pointer to the frame which path is being added
+ @param path_id identifier of the path to add
+ @param path array with the links of the path
+ @param path_len number of links in the given path
+ @return 0 if done correctly, -1 otherwise
+ */
+int add_path(Frame *frame_pt, int path_id, int *path, int path_len);
+
+/**
+ Set the number of splits in the given frame and allocate memory to store the roots of the linked lists
+ 
+ @param frame_pt pointer to the frame
+ @param num_splits number of splits that will have the frame
+ */
+void set_num_splits(Frame *frame_pt, int num_splits);
+
+/**
+ Add a new link of the path to the given split linked list pointer.
+ 
+ @param frame_pt pointer to the frame which path is being added
+ @param split_id identifier of the split to add
+ @param split array with the links of the split
+ @param split_len number of links in the given split
+ @return 0 if done correctly, -1 otherwise
+ */
+int add_split(Frame *frame_pt, int split_id, int *split, int split_len);
