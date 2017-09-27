@@ -314,6 +314,16 @@ void set_num_splits(Frame *frame_pt, int num_splits);
 int add_split(Frame *frame_pt, int split_id, int *split, int split_len);
 
 /**
+ Get a transmission time to the offset of the given Offset
+
+ @param offset_pt offset pointer
+ @param instance number of instance in the offset
+ @param replica number of replica in the offset
+ @return long long integer of the transmission time
+ */
+long long int get_offset(Offset *offset_pt, int instance, int replica);
+
+/**
  Set a transmission time to the offset of the given Offset
 
  @param offset_pt offset pointer

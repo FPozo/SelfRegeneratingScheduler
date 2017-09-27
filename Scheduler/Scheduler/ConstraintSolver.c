@@ -320,7 +320,7 @@ int avoid_intersection(Offset *offset1_pt, int instance1, int replica1, Offset *
             y_less = yices_arith_gt_atom(y_add, get_yices_offset(offset2_pt, instance2, replica2));
             y_integer = yices_int64(distance2);
             y_add = yices_sub(get_yices_offset(offset2_pt, instance2, replica2), y_integer);
-            y_greater = yices_arith_leq_atom(get_yices_offset(offset1_pt, instance1, replica1), y_add);
+            y_greater = yices_arith_lt_atom(get_yices_offset(offset1_pt, instance1, replica1), y_add);
             y_formula = yices_or2(y_less, y_greater);
             //yices_pp_term(stdout, y_formula, 12000, 10000, 0);     // Printing of the formula, remove after debugging
             if (yices_assert_formula(logical_context, y_formula) == -1) {

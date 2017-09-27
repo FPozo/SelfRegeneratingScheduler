@@ -206,3 +206,95 @@ void initialize_network(void) {
         }
     }
 }
+
+/**
+ Check if the schedule stored is correct and satisfies all the constraints
+ */
+int check_schedule_correctness(void) {
+    
+    Path *path_it, *next_path_pt;                 // Iterator for the paths linked list of a frame
+    Offset *offset_pt, *next_offset_pt, *offset_it, *other_offset_it;
+    long long int offset1, offset2, offset3 = 0;
+    
+    // For all the frames in the network
+    for (int i = 0; i < num_frames; i++) {
+        
+        // For all the offsets of the frame
+        offset_it = get_offset_root(&frames[i]);
+        while (!is_last_offset(offset_it)) {
+            
+            // Check if the transmission times satisfy deadlines
+            offset1 = get_offset(offset_it, 0, 0) + get_timeslot_size(offset_it);
+            if (offset1 > get_deadline(&frames[i])) {
+                printf("Error, the offset frames do not satisfy deadlines");
+                return -1;
+            }
+            
+            // Check that the transmission times are periodic
+            for (int instace = 0; instace < get_number_instances(offset_it); instace++) {
+                if (instace > 0) {
+                    offset1 = get_offset(offset_it, instace - 1, 0);
+                    offset2 = get_offset(offset_it, instace, 0);
+                    if ((offset1 + get_period(&frames[i])) != offset2) {
+                        printf("Error, the frames instances are not periodic");
+                        return -1;
+                    }
+                }
+            }
+            
+            // Check if this frames collide with another frames in the same time and link
+            for (int j = 0; j < i; j++) {
+                other_offset_it = get_frame_offset_by_link(&frames[j], get_offset_link(offset_it));
+                if (other_offset_it != NULL) {  // If both frames share a link compare times
+                    for (int instance = 0; instance < get_number_instances(offset_it); instance++) {
+                        for (int other_instance = 0; other_instance < get_number_instances(other_offset_it);
+                             other_instance++) {
+                            offset1 = get_offset(offset_it, instance, 0);
+                            offset2 = get_offset(other_offset_it, other_instance, 0);
+                            if ((offset1 <= (offset2 + get_timeslot_size(other_offset_it))) &&
+                                ((offset1 + get_timeslot_size(offset_it)) >= offset2)) {
+                                printf("Error, frames are colliding\n");
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            offset_it = get_next_offset(offset_it);
+        }
+        
+        // For all the paths in the network
+        for (int j = 0; j < get_num_paths(&frames[i]); j++) {
+            path_it = get_path_root(&frames[i], j);
+            offset_pt = get_offset_from_path(path_it);
+            offset3 = get_offset(offset_pt, 0, 0);
+            while (!is_last_path(path_it)) {
+                
+                // Check if the paths are correctly formed
+                offset1 = get_offset(offset_pt, 0, 0);
+                offset_pt = get_offset_from_path(path_it);
+                next_path_pt = get_next_path(path_it);
+                if (!is_last_path(next_path_pt)) {
+                    next_offset_pt = get_offset_from_path(next_path_pt);
+                    offset2 = get_offset(next_offset_pt, 0, 0);
+                    if (offset2 < (offset1 + hop_delay)) {
+                        printf("Error checking the path dependent constraint\n");
+                        return -1;
+                    }
+                } else {    // If it is the last, then we can check the end to end delay of the path
+                    offset2 = get_offset(offset_pt, 0, 0);
+                    if (((offset2 + get_timeslot_size(offset_pt)) - offset3) > get_end_to_end_delay(&frames[i])) {
+                        printf("Error checking the end to end delay constraint\n");
+                        return -1;
+                    }
+                    
+                }
+                path_it = get_next_path(path_it);
+            }
+        }
+        
+    }
+    
+    return 0;
+}

@@ -143,3 +143,10 @@ int add_frame_split(int frame_id, int split_id, int *split, int len_split);
  Init all the needed variables in the network to start the scheduling, such as frame appearances, instances and similar
  */
 void initialize_network(void);
+
+/**
+ Check if the schedule stored is correct and satisfies all the constraints
+
+ @return 0 if correct, -1 otherwise
+ */
+int check_schedule_correctness(void);

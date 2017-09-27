@@ -68,5 +68,11 @@ int one_shot_scheduling(char *network_file, char *param_file) {
     // Save the values obtained by the solver
     save_offsets(csolver);
     
+    // Check if the scheduled done is correct
+    if (check_schedule_correctness() == -1) {
+        printf("The schedule is not correct\n");
+        return -1;
+    }
+    
     return 0;
 }

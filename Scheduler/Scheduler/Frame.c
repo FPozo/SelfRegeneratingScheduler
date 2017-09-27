@@ -340,6 +340,14 @@ int add_split(Frame *frame_pt, int split_id, int *split, int split_len) {
 }
 
 /**
+ Get a transmission time to the offset of the given Offset
+ */
+long long int get_offset(Offset *offset_pt, int instance, int replica) {
+    
+    return offset_pt->offset[instance][replica];
+}
+
+/**
  Set a transmission time to the offset of the given Offset
  */
 void set_offset(Offset *offset_pt, int instance, int replica, long long int value) {
