@@ -251,8 +251,10 @@ int check_schedule_correctness(void) {
                              other_instance++) {
                             offset1 = get_offset(offset_it, instance, 0);
                             offset2 = get_offset(other_offset_it, other_instance, 0);
-                            if ((offset1 <= (offset2 + get_timeslot_size(other_offset_it))) &&
-                                ((offset1 + get_timeslot_size(offset_it)) >= offset2)) {
+                            if (((offset1 <= (offset2 + get_timeslot_size(other_offset_it))) &&
+                                ((offset1 + get_timeslot_size(offset_it)) >= offset2)) ||
+                                ((offset2 <= (offset1 + get_timeslot_size(offset_it))) &&
+                                ((offset2 + get_timeslot_size(other_offset_it)) >= offset1))) {
                                 printf("Error, frames are colliding\n");
                                 return -1;
                             }
