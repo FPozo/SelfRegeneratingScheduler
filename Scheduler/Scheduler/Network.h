@@ -28,6 +28,13 @@
                                                 /* CODE DEFINITIONS */
 
 /**
+ Get the number of frames in the network
+
+ @return number of frames in the network
+ */
+int get_number_frames(void);
+
+/**
  Set the number of frames in the network
 
  @param number_frames integer with the number of frames in the network
@@ -35,11 +42,26 @@
 void set_number_frames(int number_frames);
 
 /**
+ Get the frame pointer given the frame id
+
+ @param frame_id integer with the frame identifier
+ @return pointer of the frame
+ */
+Frame * get_frame(int frame_id);
+
+/**
  Set the number of links in the network
 
  @param number_links integer with the number of links in the network
  */
 void set_number_links(int number_links);
+
+/**
+ Get the hop delay of the switches in the network
+
+ @return integer with the hop delay
+ */
+int get_hop_delay(void);
 
 /**
  Sets the hop delay of the switches in the network
@@ -72,9 +94,10 @@ int add_link(int link_id, int speed, LinkType link_type);
  @param period long long int of the period in ns
  @param deadline long long int of the deadline in ns
  @param size int of the size in bytes
+ @param delay long long int of the end to end delay in ns
  @return 0 if done correctly, -1 if index out of array of frames
  */
-int add_frame_information(int frame_id, long long int period, long long int deadline, int size);
+int add_frame_information(int frame_id, long long int period, long long int deadline, int size, long long int delay);
 
 /**
  Add the number of paths to the frame
@@ -115,3 +138,8 @@ int add_num_splits(int frame_id, int num_splits);
  @return 0 if everything correct, -1 otherwise
  */
 int add_frame_split(int frame_id, int split_id, int *split, int len_split);
+
+/**
+ Init all the needed variables in the network to start the scheduling, such as frame appearances, instances and similar
+ */
+void initialize_network(void);

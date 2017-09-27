@@ -28,6 +28,14 @@ int hop_delay;                  // Time to wait to relay a frame after being rec
                                                     /* FUNCTIONS */
 
 /**
+ Get the number of frames in the network
+ */
+int get_number_frames(void) {
+    
+    return num_frames;
+}
+
+/**
  Set the number of frames in the network
  */
 void set_number_frames(int number_frames) {
@@ -37,12 +45,28 @@ void set_number_frames(int number_frames) {
 }
 
 /**
+ Get the frame pointer given the frame id
+ */
+Frame * get_frame(int frame_id) {
+    
+    return &frames[frame_id];
+}
+
+/**
  Set the number of links in the network
  */
 void set_number_links(int number_links) {
     
     num_links = number_links;
     links = malloc(sizeof(Link) * number_links);        // Init the array of links now that we now the number
+}
+
+/**
+ Get the hop delay of the switches in the network
+ */
+int get_hop_delay(void) {
+    
+    return hop_delay;
 }
 
 /**
@@ -76,7 +100,7 @@ int add_link(int link_id, int speed, LinkType link_type) {
 /**
  Adds to the given index frame the general information of the period, deadline and size in the frame array
  */
-int add_frame_information(int frame_id, long long int period, long long int deadline, int size) {
+int add_frame_information(int frame_id, long long int period, long long int deadline, int size, long long int delay) {
     
     // Check if it fits in the frame array
     if (frame_id >= num_frames) {
@@ -88,6 +112,7 @@ int add_frame_information(int frame_id, long long int period, long long int dead
     set_period(&frames[frame_id], period);
     set_deadline(&frames[frame_id], deadline);
     set_size(&frames[frame_id], size);
+    set_end_to_end_delay(&frames[frame_id], delay);
     
     // Init also the hash array to accelerate links search
     init_hash(&frames[frame_id], num_links);
@@ -145,4 +170,39 @@ int add_frame_split(int frame_id, int split_id, int *split, int len_split) {
     
     add_split(&frames[frame_id], split_id, split, len_split);
     return 0;
+}
+
+/**
+ Init all the needed variables in the network to start the scheduling, such as frame appearances, instances and similar
+ */
+void initialize_network(void) {
+    
+    int instances;
+    int time;
+    Offset *offset_it;          // Iterator to go through all offsets
+    
+    // For all frames, init the offset to -1, and set the appearances and the replicas depending on its period and
+    // if they are wired or wireless link transmissions, also time for transmission
+    for (int i = 0; i < num_frames; i++) {
+        
+        // Calculate the number of appearances Hyperperiod/period of the frame
+        instances = (int)(hyperperiod / get_period(&frames[i]));
+        offset_it = get_offset_root(&frames[i]);
+        while (!is_last_offset(offset_it)) {
+            
+            // Set the number of instances, replicas and the transmission time of the offset
+            set_instances(offset_it, instances);
+            if (links[get_offset_link(offset_it)].type == wired) {      // If it wired, there is not replicas
+                set_replicas(offset_it, 0);
+            }
+            // Calculate the time to transmit as BytesFrame / Speed in MB/s * 10^6 (to get to ns)
+            time = (get_size(&frames[i]) * 1000000) / links[get_offset_link(offset_it)].speed;
+            set_timeslot_size(offset_it, time);
+            
+            // At the end, we prepare the offset to be ready, which allocates the matrix of transmission times
+            prepare_offset(offset_it);
+            
+            offset_it = get_next_offset(offset_it);     // Advance to the next offset
+        }
+    }
 }

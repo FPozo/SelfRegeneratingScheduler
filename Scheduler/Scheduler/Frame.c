@@ -72,11 +72,19 @@ int init_hash(Frame *frame_pt, int num_links) {
         return -1;
     }
     
-    frame_pt->offset_hash = malloc(sizeof(Offset) * num_links);
+    frame_pt->offset_hash = malloc(sizeof(Offset *) * num_links);
     for (int i = 0; i < num_links; i++) {
         frame_pt->offset_hash[i] = NULL;
     }
     return 0;
+}
+
+/**
+ Get the period of the given frame
+ */
+long long int get_period(Frame *frame_pt) {
+    
+    return frame_pt->period;
 }
 
 /**
@@ -88,6 +96,14 @@ void set_period(Frame *frame_pt, long long int period) {
 }
 
 /**
+ Get the deadline of the given frame
+ */
+long long int get_deadline(Frame *frame_pt) {
+    
+    return frame_pt->deadline;
+}
+
+/**
  Set the deadline of the given frame
  */
 void set_deadline(Frame *frame_pt, long long int deadline) {
@@ -96,11 +112,153 @@ void set_deadline(Frame *frame_pt, long long int deadline) {
 }
 
 /**
+ Get the size in bytes of the given frame
+ */
+int get_size(Frame *frame_pt) {
+    
+    return frame_pt->size;
+}
+
+/**
  Set the size of the given frame
  */
 void set_size(Frame *frame_pt, int size) {
     
     frame_pt->size = size;
+}
+
+/**
+ Get the end to end delay of the given frame
+ */
+long long int get_end_to_end_delay(Frame *frame_pt) {
+    
+    return frame_pt->end_to_end_delay;
+}
+
+/**
+ Set the end to end delay of the given frame
+ */
+void set_end_to_end_delay(Frame *frame_pt, long long int delay) {
+    
+    frame_pt->end_to_end_delay = delay;
+}
+
+/**
+ Get the number of instances of the offset
+ */
+int get_number_instances(Offset *offset_pt) {
+    
+    return offset_pt->num_instances;
+}
+
+/**
+ Set the number of instances of the given frame
+ */
+void set_instances(Offset *offset_pt, int instances) {
+    
+    offset_pt->num_instances = instances;
+}
+
+/**
+ Get the number of replicas of the offset
+ */
+int get_number_replicas(Offset *offset_pt) {
+    
+    return offset_pt->num_replicas;
+}
+
+/**
+ Set the number of replicas of the given frame
+ */
+void set_replicas(Offset *offset_pt, int replicas) {
+    
+    offset_pt->num_replicas = replicas;
+}
+
+/**
+ Gets the number of timeslots that the offset needs to be transmitted
+ */
+long long int get_timeslot_size(Offset *offset_pt) {
+    
+    return offset_pt->timeslots;
+}
+
+/**
+ Set the number of timeslots that the offset needs to be transmitted
+ */
+void set_timeslot_size(Offset *offset_pt, int size) {
+    
+    offset_pt->timeslots = size;
+}
+
+/**
+ Get the path root of the given frame and path number
+ */
+Path * get_path_root(Frame *frame_pt, int path_id) {
+    
+    return &frame_pt->path_array_ls[path_id];
+}
+
+/**
+ Get the next path pointer if exists, NULL if it is the last one
+ */
+Path * get_next_path(Path *path_pt) {
+    
+    return path_pt->next_path_pt;
+}
+
+/**
+ Checks if it is the last path of the paths linked list
+ */
+int is_last_path(Path *path_pt) {
+    
+    if (path_pt->next_path_pt == NULL) {
+        return 1;
+    }
+    return 0;
+}
+
+/**
+ Get the offset root of the given frame
+ */
+Offset * get_offset_root(Frame *frame_pt) {
+    
+    return frame_pt->offset_ls;
+}
+
+/**
+ Get the next offset pointer if exists, NULL if is the last one
+ */
+Offset * get_next_offset(Offset *offset_pt) {
+    
+    return offset_pt->next_offset_pt;
+}
+
+/**
+ Checks if it is the last offset of the offsets linked list
+ */
+int is_last_offset(Offset *offset_pt) {
+    
+    if (offset_pt->next_offset_pt == NULL) {        // It is the last offset of the linked list
+        return 1;
+    }
+    return 0;
+}
+
+/**
+ Get the link of the given offset
+ */
+int get_offset_link(Offset *offset_pt) {
+    
+    return offset_pt->link;
+}
+
+/**
+ Get the number of paths in the given frame
+ */
+int get_num_paths(Frame *frame_pt) {
+    
+    return frame_pt->num_paths;
 }
 
 /**
@@ -140,7 +298,7 @@ int add_path(Frame *frame_pt, int path_id, int *path, int len_path) {
         path_it->offset_pt = add_new_offset(frame_pt->offset_ls, path[i]);
         
         // Add also the offset link to the hash accelerator
-        frame_pt->offset_hash[path[i]] = path_it->offset_pt;
+        frame_pt->offset_hash[path_it->link] = path_it->offset_pt;
         
         path_it = path_it->next_path_pt;                    // Point now to the next path
     }
@@ -179,4 +337,60 @@ int add_split(Frame *frame_pt, int split_id, int *split, int split_len) {
     }
     
     return 0;
+}
+
+/**
+ Set a transmission time to the offset of the given Offset
+ */
+void set_offset(Offset *offset_pt, int instance, int replica, long long int value) {
+    
+    offset_pt->offset[instance][replica] = value;
+}
+
+/**
+ Get the Offset pointer from the given path pointer
+ */
+Offset * get_offset_from_path(Path *path_pt) {
+    
+    return path_pt->offset_pt;
+}
+
+/**
+ Get yices offset of the given instance and replica
+ */
+term_t get_yices_offset(Offset *offset_pt, int instance, int replica) {
+    
+    return offset_pt->y_offset[instance][replica];
+}
+
+/**
+ Set a yices variable constraint of the given Offset
+ */
+void set_yices_offset(Offset *offset_pt, int instance, int replica, term_t constraint, char* name) {
+    
+    offset_pt->y_offset[instance][replica] = constraint;
+    yices_set_term_name(offset_pt->y_offset[instance][replica], name);
+}
+
+/**
+ Allocates the memory needed and prepare all variables for the used to be ready to be used
+ */
+void prepare_offset(Offset *offset_pt) {
+    
+    // Dynamically allocate an array for the offsets of size [num_instances][num_replicas + 1]
+    offset_pt->offset = malloc(sizeof(long long int *) * offset_pt->num_instances);
+    offset_pt->y_offset = malloc(sizeof(term_t *) * offset_pt->num_instances);
+    for (int i = 0; i < offset_pt->num_instances; i++) {
+        offset_pt->offset[i] = malloc(sizeof(long long int) * (offset_pt->num_replicas + 1));
+        offset_pt->y_offset[i] = malloc(sizeof(term_t) * (offset_pt->num_replicas + 1));
+    }
+}
+
+/**
+ Get the Offset pointer of a frame with the given link.
+ This function is O(1) using a hash table and tries to avoid to find the offset iterating the whole offset linked list
+ */
+Offset * get_frame_offset_by_link(Frame *frame_pt, int link) {
+    
+    return frame_pt->offset_hash[link];
 }

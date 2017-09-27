@@ -26,5 +26,19 @@
 
                                                 /* STRUCT DEFINITIONS */
 
-
                                                 /* CODE DEFINITIONS */
+
+/**
+ Produces the schedule solving all constraints in one call to the SMT Solver for a given network.
+ It inits the solver and the network.
+ It starts creating all the constraints (one variable for each transmission offset), then adds constraints relating
+ different offsets. At the end solves the logical context and the model obtained is the solver.
+ It creates an xml file with the output schedule.
+ It also creates different constraint files for every switch in the network containing specific constraints for each
+ switch
+
+ @param network_file name of the file with the description of the network
+ @param param_file name of the file with the parameters for the synthesizer
+ @return 0 if the schedule was found, -1 if not found or so problem happened
+ */
+int one_shot_scheduling(char *network_file, char *param_file);

@@ -9,11 +9,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <stdio.h>
-#include "IOInterface.h"
+#include "Synthesizer.h"
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     printf("Hello, World!\n");
-    parse_network_xml("/Users/fpo01/OneDrive - Mälardalens högskola/Software/Self-Regenerating Scheduler/Network/prueba");
+    one_shot_scheduling("/Users/fpo01/OneDrive - Mälardalens högskola/Software/Self-Regenerating Scheduler/Network/prueba",
+                        NULL);
+    
     return 0;
 }

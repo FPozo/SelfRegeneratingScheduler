@@ -5,8 +5,8 @@
       <NumberSwitches>4</NumberSwitches>
       <NumberEndSystems>3</NumberEndSystems>
       <NumberLinks>12</NumberLinks>
-      <MinimumTimeSwitch>1</MinimumTimeSwitch>
-      <HyperPeriod>1600000</HyperPeriod>
+      <MinimumTimeSwitch>0</MinimumTimeSwitch>
+      <HyperPeriod>1600000000</HyperPeriod>
       <Utilization>0.04072916666666667</Utilization>
       <MaximumLinkUtilization>0.10625</MaximumLinkUtilization>
       <FrameInstances>82</FrameInstances>
@@ -152,9 +152,10 @@
       <Frames>
          <Frame>
             <ID>0</ID>
-            <Period>200000</Period>
-            <Deadline>200000</Deadline>
+            <Period>200000000</Period>
+            <Deadline>200000000</Deadline>
             <Size>1000</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>5;3;6;8</Path>
             </Paths>
@@ -162,9 +163,10 @@
          </Frame>
          <Frame>
             <ID>1</ID>
-            <Period>1600000</Period>
-            <Deadline>1600000</Deadline>
+            <Period>1600000000</Period>
+            <Deadline>1600000000</Deadline>
             <Size>200</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>11;7;2;4</Path>
             </Paths>
@@ -172,9 +174,10 @@
          </Frame>
          <Frame>
             <ID>2</ID>
-            <Period>400000</Period>
-            <Deadline>400000</Deadline>
+            <Period>400000000</Period>
+            <Deadline>400000000</Deadline>
             <Size>500</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>9;10</Path>
             </Paths>
@@ -182,9 +185,10 @@
          </Frame>
          <Frame>
             <ID>3</ID>
-            <Period>800000</Period>
-            <Deadline>800000</Deadline>
+            <Period>800000000</Period>
+            <Deadline>800000000</Deadline>
             <Size>1500</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>9;7;2;4</Path>
             </Paths>
@@ -192,9 +196,10 @@
          </Frame>
          <Frame>
             <ID>4</ID>
-            <Period>1600000</Period>
-            <Deadline>1600000</Deadline>
+            <Period>1600000000</Period>
+            <Deadline>1600000000</Deadline>
             <Size>200</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>9;7;2;4</Path>
                <Path>9;10</Path>
@@ -205,9 +210,10 @@
          </Frame>
          <Frame>
             <ID>5</ID>
-            <Period>800000</Period>
-            <Deadline>800000</Deadline>
+            <Period>800000000</Period>
+            <Deadline>800000000</Deadline>
             <Size>1500</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>11;8</Path>
             </Paths>
@@ -215,9 +221,10 @@
          </Frame>
          <Frame>
             <ID>6</ID>
-            <Period>1600000</Period>
-            <Deadline>1600000</Deadline>
+            <Period>1600000000</Period>
+            <Deadline>1600000000</Deadline>
             <Size>200</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>9;7;2;4</Path>
                <Path>9;10</Path>
@@ -228,9 +235,10 @@
          </Frame>
          <Frame>
             <ID>7</ID>
-            <Period>1600000</Period>
-            <Deadline>1600000</Deadline>
+            <Period>1600000000</Period>
+            <Deadline>1600000000</Deadline>
             <Size>200</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>9;10</Path>
             </Paths>
@@ -238,9 +246,10 @@
          </Frame>
          <Frame>
             <ID>8</ID>
-            <Period>800000</Period>
-            <Deadline>800000</Deadline>
+            <Period>800000000</Period>
+            <Deadline>800000000</Deadline>
             <Size>1500</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>11;8</Path>
             </Paths>
@@ -248,9 +257,10 @@
          </Frame>
          <Frame>
             <ID>9</ID>
-            <Period>800000</Period>
-            <Deadline>800000</Deadline>
+            <Period>800000000</Period>
+            <Deadline>800000000</Deadline>
             <Size>1500</Size>
+            <EndToEnd>100000000</EndToEnd>
             <Paths>
                <Path>11;7;2;4</Path>
                <Path>11;8</Path>
