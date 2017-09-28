@@ -22,6 +22,8 @@ Frame *frames;                  // Array with all the frames in the network
 Link *links;                    // Array with all the links in the network
 long long int hyperperiod;      // Hyperperiod of the network schedule in ns
 int hop_delay;                  // Time to wait to relay a frame after being received
+long long int protocol_period;  // Period that we save for the protocol
+long long int protocol_time;    // Time saved in every period for the protocol
 
                                                 /* AUXILIAR FUNCTIONS */
 
@@ -83,6 +85,15 @@ void set_hop_delay(int hp) {
 void set_hyper_period(long long int hyper_period) {
     
     hyperperiod = hyper_period;
+}
+
+/**
+ Sets the parameters of the protocol
+ */
+void set_protocol_parameters(long long int period, long long int time) {
+    
+    protocol_period = period;
+    protocol_time = time;
 }
 
 /**
@@ -173,6 +184,29 @@ int add_frame_split(int frame_id, int split_id, int *split, int len_split) {
 }
 
 /**
+ Init to reserve bandwitch for the protocol creating a fake frame.
+ The fake frame has the period of the protocol, the timesize slot of the protocol and the same number of paths as links
+ that include only one link in each path
+ */
+void initialize_protocol(void) {
+    
+    int path[1];
+    
+    // If there are protocol, add an extra fake frame
+    if (protocol_period != 0) {
+        num_frames++;
+        frames = realloc(frames, sizeof(Frame) * num_frames);   // Allocate space for the new fake frame
+        add_frame_information(num_frames - 1, protocol_period, protocol_period, 0, protocol_time + 1);
+        add_num_paths(num_frames - 1, num_links);               // As many paths as links
+        for (int i = 0; i < num_links; i++) {
+            path[0] = i;
+            add_path(&frames[num_frames - 1], i, path , 1);
+        }
+    }
+    
+}
+
+/**
  Init all the needed variables in the network to start the scheduling, such as frame appearances, instances and similar
  */
 void initialize_network(void) {
@@ -180,6 +214,8 @@ void initialize_network(void) {
     int instances;
     int time;
     Offset *offset_it;          // Iterator to go through all offsets
+    
+    initialize_protocol();
     
     // For all frames, init the offset to -1, and set the appearances and the replicas depending on its period and
     // if they are wired or wireless link transmissions, also time for transmission
@@ -196,7 +232,11 @@ void initialize_network(void) {
                 set_replicas(offset_it, 0);
             }
             // Calculate the time to transmit as BytesFrame / Speed in MB/s * 10^6 (to get to ns)
-            time = (get_size(&frames[i]) * 1000000) / links[get_offset_link(offset_it)].speed;
+            if (get_size(&frames[i]) == 0) {
+                time = (int)protocol_time;
+            } else {
+                time = (get_size(&frames[i]) * 1000000) / get_link_speed(&links[get_offset_link(offset_it)]);
+            }
             set_timeslot_size(offset_it, time);
             
             // At the end, we prepare the offset to be ready, which allocates the matrix of transmission times
@@ -236,7 +276,7 @@ int check_schedule_correctness(void) {
                     offset1 = get_offset(offset_it, instace - 1, 0);
                     offset2 = get_offset(offset_it, instace, 0);
                     if ((offset1 + get_period(&frames[i])) != offset2) {
-                        printf("Error, the frames instances are not periodic");
+                        printf("Error, the frames instances are not periodic\n");
                         return -1;
                     }
                 }
@@ -299,4 +339,15 @@ int check_schedule_correctness(void) {
     }
     
     return 0;
+}
+
+/**
+ Tells if the protocol for bandwitch allocation is active or not
+ */
+int is_protocol_active(void) {
+    
+    if (protocol_period == 0) {
+        return 0;
+    }
+    return 1;
 }

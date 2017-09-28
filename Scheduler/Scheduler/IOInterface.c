@@ -31,6 +31,8 @@ int read_network_parameters(xmlDoc *file) {
     xmlXPathContextPtr context;
     xmlXPathObjectPtr result;
     
+    long long int protocol_time, protocol_period;
+    
     // Search the number of frames in the network and save it
     context = xmlXPathNewContext(file);
     result = xmlXPathEvalExpression((xmlChar*) "/Network/GeneralInformation/NumberFrames", context);
@@ -86,6 +88,35 @@ int read_network_parameters(xmlDoc *file) {
     xmlFree(value);
     xmlXPathFreeObject(result);
     xmlXPathFreeContext(context);
+    
+    // Search the period protocol in the network and save it
+    context = xmlXPathNewContext(file);
+    result = xmlXPathEvalExpression((xmlChar*) "/Network/GeneralInformation/PeriodProtocol", context);
+    if (result->nodesetval->nodeTab == NULL) {
+        protocol_period = 0;
+    }
+    value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
+    protocol_period = atoll((const char*) value);
+    // Free xml objects
+    xmlFree(value);
+    xmlXPathFreeObject(result);
+    xmlXPathFreeContext(context);
+    
+    // Search the period protocol in the network and save it
+    context = xmlXPathNewContext(file);
+    result = xmlXPathEvalExpression((xmlChar*) "/Network/GeneralInformation/TimeProtocol", context);
+    if (result->nodesetval->nodeTab == NULL) {
+        protocol_time = 0;
+    }
+    value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
+    protocol_time = atoll((const char*) value);
+    // Free xml objects
+    xmlFree(value);
+    xmlXPathFreeObject(result);
+    xmlXPathFreeContext(context);
+    
+    // Save the protocol paramenters
+    set_protocol_parameters(protocol_period, protocol_time);
     
     return 0;
 }

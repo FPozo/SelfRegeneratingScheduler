@@ -109,6 +109,82 @@ void init_variable(Offset *offset_pt, int instance, int replica, char *name, Sol
 }
 
 /**
+ Set a fixed value to the given offset into the constraint solver
+
+ @param offset_pt pointer of the offset
+ @param instance instace of the offset
+ @param replica replica of the offset
+ @param value long long int transmission time of the offset
+ @param cssolver constraint solver used
+ @return 0 if everything went ok, -1 otherwise
+ */
+int set_fixed_value(Offset *offset_pt, int instance, int replica, long long int value, Solver cssolver) {
+    
+    // Yices variables
+    term_t y_integer;
+    term_t y_formula;
+    
+    switch (cssolver) {
+        case yices2:
+            y_integer = yices_int64(-value);    // Negative because yices schedule is inverted
+            y_formula = yices_eq(get_yices_offset(offset_pt, instance, replica), y_integer);
+            // yices_pp_term(stdout, y_formula, 80, 1, 0);     // Remove when not debugging
+            if (yices_assert_formula(logical_context, y_formula) == -1) {
+                printf("Error setting a fixed value\n");
+                return -1;
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return 0;
+}
+
+/**
+ Creates the variables with a fixed value for the protocol to save bandwitch in the contraint solver too
+
+ @param csolver constraint solver used
+ @return 1 if everything went ok, 0 otherwise
+ */
+int create_variables_protocol(Solver csolver) {
+    
+    Offset *offset_it;
+    Frame *frame_pt;
+    long long int period, transmission_time;
+    char name[100];
+    
+    // If the protocol is active, we init the variables
+    if (is_protocol_active() == 1) {
+        
+        frame_pt = get_frame(get_number_frames() - 1);      // The fake frame is the last frame
+        period = get_period(frame_pt);
+        offset_it = get_offset_root(frame_pt);      // Get the offset root of the frame to iterate over all offsets
+        while (!is_last_offset(offset_it)) {
+            
+            // Get the number of replicas and instances of the offsets, as there is a variable for each one
+            // Iterate over all replicas and instances
+            for (int instance = 0; instance < get_number_instances(offset_it); instance++) {
+                // <= Because there exist a replica 0
+                for (int replica = 0; replica <= get_number_replicas(offset_it); replica++) {
+                    // The name of a variable is O_frameid_instance_replica_link (O => Offset)
+                    sprintf(name, "O_Protocol_%d_%d_%d", instance, replica, get_offset_link(offset_it));
+                    init_variable(offset_it, instance, replica, name, csolver);
+                    
+                    transmission_time = period * instance + 1;
+                    set_fixed_value(offset_it, instance, replica, transmission_time, csolver);
+                    
+                }
+            }
+            
+            offset_it = get_next_offset(offset_it);
+        }
+    }
+    return 1;
+}
+
+/**
  Adds into the solver the constraints to limit transmission time range
  offset[instance][replica] = (min, max]
 
@@ -341,7 +417,7 @@ int avoid_intersection(Offset *offset1_pt, int instance1, int replica1, Offset *
  @param offset_pt pointer to the offset
  @param instance of the offset
  @param replica of the offset
-  @param csolver constraint solver used
+ @param csolver constraint solver used
  @return long long integer of the value obtained by the solver
  */
 long long int get_solver_offset(Offset *offset_pt, int instance, int replica, Solver csolver) {
@@ -430,6 +506,9 @@ int create_offset_variables(Solver csolver) {
             offset_it = get_next_offset(offset_it);
         }
     }
+    
+    // Also create the offset variables for the protocol to save the space
+    create_variables_protocol(csolver);
     
     return 0;
 }

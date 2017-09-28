@@ -10,6 +10,8 @@
       <Utilization>0.04072916666666667</Utilization>
       <MaximumLinkUtilization>0.10625</MaximumLinkUtilization>
       <FrameInstances>82</FrameInstances>
+      <PeriodProtocol>100000000</PeriodProtocol>
+      <TimeProtocol>1000</TimeProtocol>
    </GeneralInformation>
    <NetworkDescription>
       <Nodes>

@@ -78,6 +78,14 @@ void set_hop_delay(int hp);
 void set_hyper_period(long long int hyper_period);
 
 /**
+ Sets the parameters of the protocol
+
+ @param period long long int with the period
+ @param time long long int with the time
+ */
+void set_protocol_parameters(long long int period, long long int time);
+
+/**
  Add a link information to the link array
 
  @param link_id index of the link
@@ -150,3 +158,10 @@ void initialize_network(void);
  @return 0 if correct, -1 otherwise
  */
 int check_schedule_correctness(void);
+
+/**
+ Tells if the protocol for bandwitch allocation is active or not
+
+ @return 1 if active, 0 if not
+ */
+int is_protocol_active(void);
