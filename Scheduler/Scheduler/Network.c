@@ -16,14 +16,15 @@
                                                     /* VARIABLES */
 
 
-int num_frames;                 // Number of frames in the network
-int num_links;                  // Number of links in the network
-Frame *frames;                  // Array with all the frames in the network
-Link *links;                    // Array with all the links in the network
-long long int hyperperiod;      // Hyperperiod of the network schedule in ns
-int hop_delay;                  // Time to wait to relay a frame after being received
-long long int protocol_period;  // Period that we save for the protocol
-long long int protocol_time;    // Time saved in every period for the protocol
+int num_frames;                     // Number of frames in the network
+int num_links;                      // Number of links in the network
+Frame *frames;                      // Array with all the frames in the network
+Link *links;                        // Array with all the links in the network
+long long int hyperperiod;          // Hyperperiod of the network schedule in ns
+int hop_delay;                      // Time to wait to relay a frame after being received
+long long int protocol_period;      // Period that we save for the protocol
+long long int protocol_time;        // Time saved in every period for the protocol
+long long int time_between_frames;  // Time between transmissions between frames
 
                                                 /* AUXILIAR FUNCTIONS */
 
@@ -94,6 +95,22 @@ void set_protocol_parameters(long long int period, long long int time) {
     
     protocol_period = period;
     protocol_time = time;
+}
+
+/**
+ Get the time between frames
+ */
+long long int get_time_between_frames(void) {
+    
+    return time_between_frames;
+}
+
+/**
+ Set the time between frames
+ */
+void set_time_between_frames(long long int time) {
+    
+    time_between_frames = time;
 }
 
 /**

@@ -464,9 +464,17 @@ int create_offset_variables(Solver csolver) {
     long long int distance;             // To calculate the distance between instance 0, replica 0 and others
     long long int transmission_time;    // Time for a frame needed to be transmitted in a specific link
     long long int maximum_time;         // Maximum time allowed to start the transmission of an offset
+    int num_frames;                     // Number of oframes to create constraints
+    
+    // If the protocol is active, we only create frames for number of frames -1 (we avoid the fake frame)
+    if (is_protocol_active() == 1) {
+        num_frames = get_number_frames() - 1;
+    } else {
+        num_frames = get_number_frames();
+    }
     
     // For all the given frames, look for all its offsets
-    for (int i = 0; i < get_number_frames(); i++) {
+    for (int i = 0; i < num_frames; i++) {
         frame_pt = get_frame(i);
         period = get_period(frame_pt);
         offset_it = get_offset_root(frame_pt);      // Get the offset root of the frame to iterate over all offsets
@@ -523,6 +531,7 @@ int contention_free(Solver csolver) {
     Frame *frame_pt;                    // Pointer to a frame of the network
     Frame *previous_frame_pt;           // Pointer to the previous added constraint frame of the network
     int link;                           // Link identifier
+    long long int time_between_frames = get_time_between_frames();      // Time between frimes
     
     // For all the given frames
     for (int i = 0; i < get_number_frames(); i++) {
@@ -552,8 +561,9 @@ int contention_free(Solver csolver) {
                                         // Add the constraint to avoid the offsets to collide
                                         if (avoid_intersection(offset_it, instance, replica, previous_offset_it,
                                                                previous_instance, previous_replica,
-                                                               get_timeslot_size(offset_it),
-                                                               get_timeslot_size(previous_offset_it), csolver) == -1) {
+                                                               get_timeslot_size(offset_it) + time_between_frames,
+                                                               get_timeslot_size(previous_offset_it) +
+                                                               time_between_frames, csolver) == -1) {
                                             printf("Error when doing contention free constraints\n");
                                             return -1;
                                         }

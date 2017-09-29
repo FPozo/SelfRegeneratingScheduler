@@ -86,6 +86,20 @@ void set_hyper_period(long long int hyper_period);
 void set_protocol_parameters(long long int period, long long int time);
 
 /**
+ Get the time between frames
+
+ @return long long integer with the time between frames in ns
+ */
+long long int get_time_between_frames(void);
+
+/**
+ Set the time between frames
+ 
+ @param time long long int with the time between frames in ns
+ */
+void set_time_between_frames(long long int time);
+
+/**
  Add a link information to the link array
 
  @param link_id index of the link

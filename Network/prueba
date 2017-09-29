@@ -12,6 +12,7 @@
       <FrameInstances>82</FrameInstances>
       <PeriodProtocol>100000000</PeriodProtocol>
       <TimeProtocol>1000</TimeProtocol>
+      <TimeBetweenFrames>1000</TimeBetweenFrames>
    </GeneralInformation>
    <NetworkDescription>
       <Nodes>

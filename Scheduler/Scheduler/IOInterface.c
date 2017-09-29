@@ -115,6 +115,19 @@ int read_network_parameters(xmlDoc *file) {
     xmlXPathFreeObject(result);
     xmlXPathFreeContext(context);
     
+    // Search the period protocol in the network and save it
+    context = xmlXPathNewContext(file);
+    result = xmlXPathEvalExpression((xmlChar*) "/Network/GeneralInformation/TimeBetweenFrames", context);
+    if (result->nodesetval->nodeTab == NULL) {
+        protocol_time = 0;
+    }
+    value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
+    set_time_between_frames(atoll((const char*) value));
+    // Free xml objects
+    xmlFree(value);
+    xmlXPathFreeObject(result);
+    xmlXPathFreeContext(context);
+    
     // Save the protocol paramenters
     set_protocol_parameters(protocol_period, protocol_time);
     
