@@ -18,8 +18,9 @@
 
 /* Begin PBXFileReference section */
 		607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Scheduler.xcodeproj; path = Scheduler/Scheduler.xcodeproj; sourceTree = "<group>"; };
-		607C846C1F6BDC74001DBE0B /* Network */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Network; sourceTree = "<group>"; };
+		607C846C1F6BDC74001DBE0B /* Networks */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Networks; sourceTree = "<group>"; };
 		607D46E51F6ACAB4009BD03E /* SelfRegSched.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = SelfRegSched.py; sourceTree = "<group>"; };
+		608BF77C1F82415C00A06E20 /* NetworkConfigurations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NetworkConfigurations; sourceTree = "<group>"; };
 		60FD02521F8221F9008A1FCF /* Network Generator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Network Generator.xcodeproj"; path = "Network Generator/Network Generator.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -35,8 +36,9 @@
 		607D46DA1F6ACA90009BD03E = {
 			isa = PBXGroup;
 			children = (
+				608BF77C1F82415C00A06E20 /* NetworkConfigurations */,
 				60FD02521F8221F9008A1FCF /* Network Generator.xcodeproj */,
-				607C846C1F6BDC74001DBE0B /* Network */,
+				607C846C1F6BDC74001DBE0B /* Networks */,
 				607C845D1F6BB40E001DBE0B /* Scheduler.xcodeproj */,
 				607D46E51F6ACAB4009BD03E /* SelfRegSched.py */,
 			);

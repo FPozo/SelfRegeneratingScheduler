@@ -9,6 +9,10 @@
 /* Begin PBXFileReference section */
 		60FD02561F822244008A1FCF /* NetworkGenerator.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = NetworkGenerator.py; sourceTree = "<group>"; };
 		60FD02581F822464008A1FCF /* __init__.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
+		60FD02591F822690008A1FCF /* Link.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = Link.py; sourceTree = "<group>"; };
+		60FD025A1F822FE4008A1FCF /* Node.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Node.py; sourceTree = "<group>"; };
+		60FD025B1F82307D008A1FCF /* Frame.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Frame.py; sourceTree = "<group>"; };
+		60FD025D1F823617008A1FCF /* Network.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Network.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -23,7 +27,11 @@
 		60FD02571F82244E008A1FCF /* NetworkGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				60FD025D1F823617008A1FCF /* Network.py */,
+				60FD025B1F82307D008A1FCF /* Frame.py */,
+				60FD025A1F822FE4008A1FCF /* Node.py */,
 				60FD02581F822464008A1FCF /* __init__.py */,
+				60FD02591F822690008A1FCF /* Link.py */,
 			);
 			path = NetworkGenerator;
 			sourceTree = "<group>";
