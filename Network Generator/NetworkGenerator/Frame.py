@@ -25,10 +25,11 @@ class Frame:
     __size = None                           # Size of the frame in bytes (Frame Standard between 72 and 1526 bytes)
     __period = None                         # Period in nanoseconds of the frame
     __deadline = None                       # Deadline in nanoseconds of the frame (if 0 => same as period)
+    __end_to_end = None                     # End to end constraint in nanoseconds of the frame
 
     # Standard function definitions #
 
-    def __init__(self, sender, receivers, period, deadline, size):
+    def __init__(self, sender, receivers, period=None, deadline=None, size=None):
         """
         Initialization of the needed values of a time-triggered frame
         :param sender: end system sender id
@@ -64,5 +65,96 @@ class Frame:
         return_text += "    Deadline      : " + str(self.__deadline) + " nanoseconds\n"
         return_text += "    Size          : " + str(self.__size) + " bytes"
         return return_text
+
+    def get_sender(self):
+        """
+        Get the sender of the frame
+        :return: sender id of the frame
+        :rtype: int
+        """
+        return self.__sender
+
+    def get_receivers(self):
+        """
+        Get all the receivers of the frame
+        :return: list with all the receivers id
+        :rtype: list of int
+        """
+        return self.__receivers
+
+    def get_period(self):
+        """
+        Get the period of the frame in ns
+        :return: period of the frame in ns
+        :rtype: int
+        """
+        return self.__period
+
+    def set_period(self, period):
+        """
+        Set the period of the frame
+        :param period: period of the frame in ns
+        :type period: int
+        :return: nothing
+        :rtype: None
+        """
+        self.__period = period
+
+    def get_deadline(self):
+        """
+        Get the deadline of the frame in ns
+        :return: deadline of the frame in ns
+        :rtype: int
+        """
+        return self.__deadline
+
+    def set_deadline(self, deadline):
+        """
+        Set the deadline of the frame
+        :param deadline: deadline of the frame in ns
+        :type deadline: int
+        :return: nothing
+        :rtype: none
+        """
+        if deadline == 0:
+            self.__deadline = self.__period
+        else:
+            self.__deadline = deadline
+
+    def get_size(self):
+        """
+        Get the size of the frame in bytes
+        :return: size of the frame in bytes
+        :rtype: int
+        """
+        return self.__size
+
+    def set_size(self, size):
+        """
+        Set the size of the frame
+        :param size: size of the frame in bytes
+        :type size: int
+        :return: nothing
+        :rtype: None
+        """
+        self.__size = size
+
+    def get_end_to_end(self):
+        """
+        Get the end to end constraint of the frame in ns
+        :return: end to end constraint of the frame in ns
+        :rtype: int
+        """
+        return self.__end_to_end
+
+    def set_end_to_end(self, end_to_end):
+        """
+        Set the end to end constraint of the frame
+        :param end_to_end: end to end constraint of the frame in ns
+        :type end_to_end: int
+        :return: nothing
+        :rtype: None
+        """
+        self.__end_to_end = end_to_end
 
     # Private function definitions #

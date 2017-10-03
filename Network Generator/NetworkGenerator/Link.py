@@ -56,4 +56,18 @@ class Link:
         else:
             return "Wireless link with speed " + str(self.__speed) + "MB/s"
 
-    # Private function definitions #
+    def get_speed(self):
+        """
+        Get the speed of the link in MB/s
+        :return: speed of the link in MB/s
+        :rtype: int
+        """
+        return self.__speed
+
+    def get_type(self):
+        """
+        Get the type of the link
+        :return: type of the link
+        :rtype: LinkType
+        """
+        return self.__link_type

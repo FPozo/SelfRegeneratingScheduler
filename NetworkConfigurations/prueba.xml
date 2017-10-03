@@ -9,7 +9,7 @@
         </TopologyInformation>
         <Description>
             <Bifurcation>
-                <NumberLinks>5</NumberLinks>
+                <NumberLinks>-5</NumberLinks>
                 <Link category="wired">
                     <Speed unit="MB/s">100</Speed>
                 </Link>
@@ -30,7 +30,7 @@
     </Topology>
     <Traffic>
         <TrafficInformation>
-            <NumberFrames>10</NumberFrames>
+            <NumberFrames>20</NumberFrames>
             <Single>0.2</Single>
             <Local>0.0</Local>
             <Multiple>0.3</Multiple>

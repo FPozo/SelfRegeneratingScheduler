@@ -55,4 +55,10 @@ class Node:
         else:
             return "End system node"
 
-    # Private function definitions #
+    def get_type(self):
+        """
+        Get the type of the node
+        :return: type of the node
+        :rtype: NodeType
+        """
+        return self.__node_type
