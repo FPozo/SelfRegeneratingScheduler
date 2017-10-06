@@ -34,3 +34,11 @@
  @return 0 if correctly read, -1 otherwise
  */
 int parse_network_xml(char *namefile);
+
+/**
+ Write the obtained schedule in a XML file
+
+ @param namefile path and name of the xml file to create with the written schedule
+ @return 0 if correctly written, -1 otherwise
+ */
+int write_schedule_xml(char* namefile);

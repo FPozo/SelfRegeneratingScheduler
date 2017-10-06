@@ -26,6 +26,17 @@
 
                                                 /* STRUCT DEFINITIONS */
 
+                                                /* AUXILIAR FUNCTIONS */
+
+/**
+ Calculates the time difference in ms
+ 
+ @param x starting time
+ @param y ending time
+ @return time difference in ms
+ */
+double time_diff(struct timeval x , struct timeval y);
+
                                                 /* CODE DEFINITIONS */
 
 /**

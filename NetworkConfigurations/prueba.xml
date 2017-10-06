@@ -3,59 +3,158 @@
     <Topology>
         <TopologyInformation>
             <MinTimeSwitch unit="ns">0</MinTimeSwitch>
-            <PeriodProtocol unit="ns">100000000</PeriodProtocol>
+            <PeriodProtocol unit="ns">10000000</PeriodProtocol>
             <TimeProtocol unit="ns">1000</TimeProtocol>
             <TimeBetweenFrames unit="ns">1000</TimeBetweenFrames>
         </TopologyInformation>
         <Description>
-            <Bifurcation>
-                <NumberLinks>-5</NumberLinks>
-                <Link category="wired">
-                    <Speed unit="MB/s">100</Speed>
-                </Link>
-                <Link category="wired">
-                    <Speed unit="MB/s">100</Speed>
-                </Link>
-                <Link category="wired">
-                    <Speed unit="MB/s">100</Speed>
-                </Link>
-                <Link category="wired">
-                    <Speed unit="MB/s">100</Speed>
-                </Link>
-                <Link category="wired">
-                    <Speed unit="MB/s">100</Speed>
-                </Link>
-            </Bifurcation>
+            <Node category="switch">
+                <NodeID>0</NodeID>
+                <Connection>
+                    <NodeID>1</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>2</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>3</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>4</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>5</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>6</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+            </Node>
+            <Node category="endsystem">
+                <NodeID>1</NodeID>
+                <Connection>
+                    <NodeID>0</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+            </Node>
+            <Node category="endsystem">
+                <NodeID>2</NodeID>
+                <Connection>
+                    <NodeID>0</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+            </Node>
+            <Node category="endsystem">
+                <NodeID>3</NodeID>
+                <Connection>
+                    <NodeID>0</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+            </Node>
+            <Node category="endsystem">
+                <NodeID>4</NodeID>
+                <Connection>
+                    <NodeID>0</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>6</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+            </Node>
+            <Node category="endsystem">
+                <NodeID>5</NodeID>
+                <Connection>
+                    <NodeID>0</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>6</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+            </Node>
+            <Node category="switch">
+                <NodeID>6</NodeID>
+                <Connection>
+                    <NodeID>0</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>5</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+                <Connection>
+                    <NodeID>4</NodeID>
+                    <Link category="wired">
+                        <Speed unit="MB/s">1000</Speed>
+                    </Link>
+                </Connection>
+            </Node>
         </Description>
     </Topology>
     <Traffic>
         <TrafficInformation>
-            <NumberFrames>20</NumberFrames>
-            <Single>0.2</Single>
+            <NumberFrames>10</NumberFrames>
+            <Single>0.5</Single>
             <Local>0.0</Local>
             <Multiple>0.3</Multiple>
-            <Broadcast>0.5</Broadcast>
+            <Broadcast>0.2</Broadcast>
         </TrafficInformation>
         <FrameDescription>
             <FrameType>
-                <Period unit="ns">200000000</Period>
-                <Deadline unit="ns">200000000</Deadline>
+                <Period unit="ns">20000000</Period>
+                <Deadline unit="ns">20000000</Deadline>
                 <Size unit="Bytes">1000</Size>
-                <EndToEnd unit="ns">100000000</EndToEnd>
+                <EndToEnd unit="ns">10000000</EndToEnd>
                 <Percentage>0.1</Percentage>
             </FrameType>
             <FrameType>
-                <Period unit="ns">400000000</Period>
-                <Deadline unit="ns">400000000</Deadline>
+                <Period unit="ns">40000000</Period>
+                <Deadline unit="ns">40000000</Deadline>
                 <Size unit="Bytes">500</Size>
-                <EndToEnd unit="ns">100000000</EndToEnd>
+                <EndToEnd unit="ns">10000000</EndToEnd>
                 <Percentage>0.4</Percentage>
             </FrameType>
             <FrameType>
-                <Period unit="ns">1600000000</Period>
-                <Deadline unit="ns">1600000000</Deadline>
+                <Period unit="ns">80000000</Period>
+                <Deadline unit="ns">80000000</Deadline>
                 <Size unit="Bytes">200</Size>
-                <EndToEnd unit="ns">200000000</EndToEnd>
+                <EndToEnd unit="ns">20000000</EndToEnd>
                 <Percentage>0.5</Percentage>
             </FrameType>
         </FrameDescription>

@@ -22,6 +22,7 @@ class Frame:
 
     __sender = None                         # End system sender id of the frame
     __receivers = []                        # List of end systems receivers id of the frame
+    __path = []                             # List of list indexes of the links to arrive from a sender to a receiver
     __size = None                           # Size of the frame in bytes (Frame Standard between 72 and 1526 bytes)
     __period = None                         # Period in nanoseconds of the frame
     __deadline = None                       # Deadline in nanoseconds of the frame (if 0 => same as period)
@@ -81,6 +82,43 @@ class Frame:
         :rtype: list of int
         """
         return self.__receivers
+
+    def get_path_receiver(self, receiver):
+        """
+        Get the path for the given receiver
+        :param receiver: receiver node
+        :type receiver: int
+        :return: path
+        :rtype: list of int
+        """
+        return self.__path[self.__receivers.index(receiver)]
+
+    def clean_path(self):
+        self.__path = []
+
+    def set_new_path(self, new_path):
+        """
+        Set a new path for the receiver (important to add the path in the same order as receivers)
+        :param new_path: list of links
+        :type new_path: list of int
+        :return: nothing
+        :rtype: None
+        """
+        self.__path.append(new_path)
+
+    def link_in_path(self, link):
+        """
+        Search if the given link is already in the path
+        :param link: index of the link
+        :type link: int
+        :return: True if the given link is in the path, False otherwise
+        :rtype: Boolean
+        """
+        for path in self.__path:
+            for path_link in path:
+                if link == path_link:
+                    return True
+        return False
 
     def get_period(self):
         """

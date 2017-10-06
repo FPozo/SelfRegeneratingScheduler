@@ -13,6 +13,7 @@
 #include "IOInterface.h"
 #include "Network.h"
 #include <string.h>
+#include <libxml2/libxml/xmlwriter.h>
 
                                                 /* VARIABLES */
 
@@ -31,7 +32,7 @@ int read_network_parameters(xmlDoc *file) {
     xmlXPathContextPtr context;
     xmlXPathObjectPtr result;
     
-    long long int protocol_time, protocol_period;
+    long long int protocol_time, protocol_period, time_between_frames;
     
     // Search the number of frames in the network and save it
     context = xmlXPathNewContext(file);
@@ -94,9 +95,10 @@ int read_network_parameters(xmlDoc *file) {
     result = xmlXPathEvalExpression((xmlChar*) "/Network/GeneralInformation/PeriodProtocol", context);
     if (result->nodesetval->nodeTab == NULL) {
         protocol_period = 0;
+    } else {
+        value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
+        protocol_period = atoll((const char*) value);
     }
-    value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
-    protocol_period = atoll((const char*) value);
     // Free xml objects
     xmlFree(value);
     xmlXPathFreeObject(result);
@@ -107,9 +109,10 @@ int read_network_parameters(xmlDoc *file) {
     result = xmlXPathEvalExpression((xmlChar*) "/Network/GeneralInformation/TimeProtocol", context);
     if (result->nodesetval->nodeTab == NULL) {
         protocol_time = 0;
+    } else {
+        value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
+        protocol_time = atoll((const char*) value);
     }
-    value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
-    protocol_time = atoll((const char*) value);
     // Free xml objects
     xmlFree(value);
     xmlXPathFreeObject(result);
@@ -119,10 +122,12 @@ int read_network_parameters(xmlDoc *file) {
     context = xmlXPathNewContext(file);
     result = xmlXPathEvalExpression((xmlChar*) "/Network/GeneralInformation/TimeBetweenFrames", context);
     if (result->nodesetval->nodeTab == NULL) {
-        protocol_time = 0;
+        time_between_frames = 0;
+    } else {
+        value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
+        time_between_frames = atoll((const char*) value);
     }
-    value = xmlNodeListGetString(file, result->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
-    set_time_between_frames(atoll((const char*) value));
+    set_time_between_frames(time_between_frames);
     // Free xml objects
     xmlFree(value);
     xmlXPathFreeObject(result);
@@ -407,5 +412,81 @@ int parse_network_xml(char *namefile) {
     // Cleanup of the xml library
     xmlFreeDoc(file_network);
     xmlCleanupParser();
+    return 0;
+}
+
+/**
+ Write the obtained schedule in a XML file
+ */
+int write_schedule_xml(char* namefile) {
+    
+    // Init xml variables needed to search informantion in the file
+    xmlDocPtr doc;
+    xmlNodePtr root_node, frames_node, frame_node, path_node, instance_node;
+    char char_value[100];
+    int num_frames;
+    Offset *offset_it;
+    Path *path_it;
+    Frame *frame_pt;
+    
+    // Create the top of the file
+    doc = xmlNewDoc(BAD_CAST "1.0");
+    root_node = xmlNewNode(NULL, BAD_CAST "Schedule");
+    xmlDocSetRootElement(doc, root_node);
+    
+    // Write all the frames
+    if (is_protocol_active()) {
+        num_frames = get_number_frames() - 1;
+    } else {
+        num_frames = get_number_frames();
+    }
+    frames_node = xmlNewChild(root_node, NULL, BAD_CAST "FramesTransmission", NULL);
+    for (int i = 0; i < num_frames; i++) {
+        
+        // Write general information about the frame to be easily to understand
+        frame_pt = get_frame(i);
+        frame_node = xmlNewChild(frames_node, NULL, BAD_CAST "Frame", NULL);
+        sprintf(char_value, "%d", i);
+        xmlNewChild(frame_node, NULL, BAD_CAST "FrameID", BAD_CAST char_value);
+        sprintf(char_value, "%lld", get_period(frame_pt));
+        xmlNewChild(frame_node, NULL, BAD_CAST "Period", BAD_CAST char_value);
+        sprintf(char_value, "%lld", get_deadline(frame_pt));
+        xmlNewChild(frame_node, NULL, BAD_CAST "Deadline", BAD_CAST char_value);
+        sprintf(char_value, "%d", get_size(frame_pt));
+        xmlNewChild(frame_node, NULL, BAD_CAST "Size", BAD_CAST char_value);
+        sprintf(char_value, "%lld", get_end_to_end_delay(frame_pt));
+        xmlNewChild(frame_node, NULL, BAD_CAST "EndToEnd", BAD_CAST char_value);
+        
+        // Write the transmission times of all paths of the frame
+        for (int j = 0; j < get_num_paths(frame_pt); j++) {
+            path_node = xmlNewChild(frame_node, NULL, BAD_CAST "Path", NULL);
+            path_it = get_path_root(frame_pt, j);
+            
+            // For all links in the path we have to get the transmission times in that link
+            while (!is_last_path(path_it)) {
+                offset_it = get_offset_from_path(path_it);
+                sprintf(char_value, "%d", get_offset_link(offset_it));
+                xmlNewChild(path_node, NULL, BAD_CAST "LinkID", BAD_CAST char_value);
+                
+                // Write the transmission time of every instance
+                for (int h = 0; h < get_number_instances(offset_it); h++) {
+                    instance_node = xmlNewChild(path_node, NULL, BAD_CAST "Instance", NULL);
+                    sprintf(char_value, "%d", h);
+                    xmlNewChild(instance_node, NULL, BAD_CAST "InstanceID", BAD_CAST char_value);
+                    sprintf(char_value, "%lld", get_offset(offset_it, h, 0));
+                    xmlNewChild(instance_node, NULL, BAD_CAST "TransmissionTime", BAD_CAST char_value);
+                    sprintf(char_value, "%lld", get_offset(offset_it, h, 0) + get_timeslot_size(offset_it) - 1);
+                    xmlNewChild(instance_node, NULL, BAD_CAST "EndingTime", BAD_CAST char_value);
+                }
+                path_it = get_next_path(path_it);
+            }
+        }
+    }
+    
+    // Write the file and clean up everything
+    xmlSaveFormatFileEnc(namefile, doc, "UTF-8", 1);
+    xmlFreeDoc(doc);
+    xmlCleanupParser();
+    
     return 0;
 }

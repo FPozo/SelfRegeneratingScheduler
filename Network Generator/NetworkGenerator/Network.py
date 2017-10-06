@@ -65,6 +65,8 @@ class Network:
     __time_between_frames = None    # Time the frames have to wait between transmissions
     __topology_description = []     # String with the information of the topology
     __link_description = []         # String with the information of the links
+    __cyclic_description = []       # Matrix with the description of all the connections of all the nodes
+    __nodes_description = []        # List with the types of nodes
     __num_frames = None             # Number of frames in the network
     __per_single_frames = None      # Percentage of frames that are sent to only one end system
     __per_local_frames = None       # Percentage of frames that are sent to end systems that have path length 2
@@ -79,6 +81,7 @@ class Network:
     __hyper_period = None           # Hyper_period of the network
     __frame_instances = None        # Number of frame instances in the network (variables with transmission times)
     __utilization = None            # Utilization of the network
+    __link_utilization = []         # Utilization of every link in the network
     __max_link_utilization = None   # Utilization of the link with maximum utilization
 
     # Standard function definitions #
@@ -105,17 +108,18 @@ class Network:
         if self.__num_frames is None:
             raise Exception("No network has been parsed")
 
+        self.__hyper_period = self.__calculate_hyper_period()
+
         # Start creating all the elements of the network
         self.__create_topology()
-        self.__generate_paths()
+        # self.__generate_paths()   We updated this function
         self.__generate_frames()
         self.__add_frame_params()
+        self.__generate_paths_frames()
 
         # Calculate some of the important parameters to know about the network
-        self.__hyper_period = self.__calculate_hyper_period()
-        self.__utilization, self.__max_link_utilization, schedulable = self.__calculate_utilization()
-        if not schedulable:
-            raise Exception('The network is not schedulable')
+        # self.__utilization, self.__max_link_utilization, schedulable = self.__calculate_utilization()
+        # Updated to do it in the frames generation
 
     # Private function definitions #
 
@@ -157,9 +161,9 @@ class Network:
         self.__graph.add_edge(source, destination, type=Link(speed=speed, link_type=link_type),
                               id=self.__graph.number_of_edges() - 1)
         self.__links.append([source, destination])  # Saves the same info in our link list with nodes
-        self.__links.append([destination, source])
+        # self.__links.append([destination, source])
         self.__links_objects.append(Link(speed=speed, link_type=link_type))  # Saves the object with same index
-        self.__links_objects.append(Link(speed=speed, link_type=link_type))
+        # self.__links_objects.append(Link(speed=speed, link_type=link_type))
 
     def __add_link_information(self, links, num_links, branch, parent_node):
         """
@@ -196,6 +200,26 @@ class Network:
         self.__graph.node[switch]['id'] = len(self.__end_systems)
         self.__end_systems.append(switch)  # Update the information into our lists
         self.__switches.remove(switch)
+
+    def __create_cyclic_topology(self):
+        """
+        Creates a network with the new connection and nodes descriptions
+        :return: nothing
+        :rtype: None
+        """
+        # Start creating all nodes
+        for node_type in self.__nodes_description:
+            if node_type == 'switch':
+                self.__add_switch()
+            else:
+                self.__add_end_system()
+
+        # Start creating all connections
+        for node_id, node in enumerate(self.__cyclic_description):
+            for connection in node:
+                link_type = LinkType.wired if connection[1][0] == 'w' else LinkType.wireless
+                speed = int(connection[1][1:])  # The speed is the rest of the string
+                self.__add_link(node_id, connection[0], link_type, speed)
 
     def __recursive_create_network(self, description, links, parent_node, num_calls, num_links):
         """
@@ -273,6 +297,11 @@ class Network:
         :return: nothing
         :rtype: None
         """
+        # If the description is with the new cyclic, call that function
+        if self.__topology_description is None:
+            self.__create_cyclic_topology()
+            return
+
         # Prepare the topology description in an array of integers
         description_array = self.__topology_description.split(';')
         description = [int(numeric_string) for numeric_string in description_array]
@@ -289,6 +318,81 @@ class Network:
         # Check if there are additional elements that should not be in the network
         if num_calls != len(description) - 1:
             raise ValueError("The network description is wrongly formulated, there are extra elements")
+
+    def __generate_paths_frames(self):
+        """
+        Generates the paths for all frames, balancing the utilization as best as we can (we only seek one, for every
+        node, which of all the possible options has least utilization in all the simplest path)
+        :return:
+        :rtype:
+        """
+        # Prepare the utilization variables to be used
+        self.__utilization = 0
+        self.__max_link_utilization = 0
+        self.__link_utilization = [0 for _ in range(len(self.__links))]
+        self.__frame_instances = 0
+
+        # Add utilization of the protocol
+        if self.__period_protocol is not None:
+            for index, link in enumerate(self.__links_objects):
+                self.__link_utilization[index] += int((self.__hyper_period / self.__period_protocol) *
+                                                      self.__time_protocol)
+                self.__frame_instances += int((self.__hyper_period / self.__period_protocol))
+
+        # For all frames in the network
+        for index_frame, frame in enumerate(self.__frames):
+            frame.clean_path()
+            # For all receivers of the frame, we can assign its path
+            for receiver in frame.get_receivers():
+
+                # Get all the simple paths (paths without repetition of node)
+                # Variables to calculate the path with less overall utilization
+                paths = []
+                paths_cost = []
+                for node_path in nx.all_simple_paths(self.__graph, frame.get_sender(), receiver):
+                    first_iteration = False
+                    previous_node = None
+                    path = []
+                    for node in node_path:
+                        if not first_iteration:
+                            first_iteration = True
+                        else:  # Find the index in the link list with the actual and previous node
+                            path.append(self.__links.index([previous_node, node]))
+                        previous_node = node
+                    paths.append(path)
+                    paths_cost.append(0)
+
+                    # For all link in the path, see the overall utilization
+                    for link in path:
+                        paths_cost[-1] += self.__link_utilization[link]
+
+                # Calculate which path to choose, it will be the path that after adding the frame has less utilization
+                for id_path, path in enumerate(paths):
+                    for link in path:
+                        if not self.__frames[index_frame].link_in_path(link):
+                            paths_cost[id_path] += int(((frame.get_size() * 1000000) /
+                                                        self.__links_objects[link].get_speed()) *
+                                                       (self.__hyper_period / frame.get_period()))
+                # Choose the minimum now
+                min_index = paths_cost.index(min(paths_cost))
+
+                # Add the utilization of the path done now
+                for link in paths[min_index]:
+                    if not self.__frames[index_frame].link_in_path(link):
+                        self.__link_utilization[link] += int(((frame.get_size() * 1000000) /
+                                                              self.__links_objects[link].get_speed()) *
+                                                             (self.__hyper_period / frame.get_period()))
+                        self.__frame_instances += int((self.__hyper_period / frame.get_period()))
+                # After adding the utilization, we can add the new path to the frame
+                frame.set_new_path(paths[min_index])
+
+        # Update all the utilization variables to floats and see if the network can be scheduled
+        for id_link in range(len(self.__link_utilization)):
+            self.__link_utilization[id_link] = float(self.__link_utilization[id_link])
+            self.__link_utilization[id_link] /= self.__hyper_period
+            self.__utilization += self.__link_utilization[id_link]
+        self.__utilization /= len(self.__link_utilization)
+        self.__max_link_utilization = max(self.__link_utilization)
 
     def __generate_paths(self):
         """
@@ -481,7 +585,7 @@ class Network:
             # Once we have all the links in the path, calculate the ns to transmit for all links
             for link in unique_links:
                 # First calculate the time occupied by normal transmissions and its period instances
-                link_utilization[link] += int(((frame.get_size() * 1000) / self.__links_objects[link].get_speed()) *
+                link_utilization[link] += int(((frame.get_size() * 1000000) / self.__links_objects[link].get_speed()) *
                                               (self.__hyper_period / frame.get_period()))
                 self.__frame_instances += int((self.__hyper_period / frame.get_period()))
 
@@ -514,7 +618,8 @@ class Network:
         self.__min_time_switch = self.__read_min_time_switch(configuration)
         self.__period_protocol, self.__time_protocol = self.__read_protocol_parameters(configuration)
         self.__time_between_frames = self.__read_time_between_frames(configuration)
-        self.__topology_description, self.__link_description = self.__read_network_topology(configuration)
+        self.__topology_description, self.__link_description, self.__cyclic_description, self.__nodes_description = \
+            self.__read_network_topology(configuration)
         self.__num_frames, self.__per_single_frames, self.__per_local_frames, self.__per_multiple_frames, \
             self.__per_broadcast_frames = self.__read_traffic_information(configuration)
         self.__periods, self.__deadlines, self.__sizes, self.__end_to_ends, self.__frames_percentages = \
@@ -636,14 +741,68 @@ class Network:
         return time_between_frames
 
     @staticmethod
-    def __read_network_topology(configuration):
+    def __read_cyclic_network_topology(configuration):
+        """
+        Returns the network description of a
+        :param configuration: :param configuration: path and name of the xml configuration file
+        :type configuration: str
+        :return: returns a matrix with list of [1, str] and the nodes description
+        :rtype: list of [int, str], list of str
+        """
+        # Open the file if exists
+        try:
+            tree = Xml.parse(configuration)
+        except Xml.ParseError:
+            raise Exception("Could not read the configuration xml file")
+        root = tree.getroot()
+
+        # Read all the nodes of the topology
+        nodes_xml = root.findall('Topology/Description/Node')
+        network_description = []
+        nodes_description = []
+
+        # For all nodes in the topology, read their connections
+        for node_xml in nodes_xml:
+
+            # Read the type of node and add it to the nodes list
+            network_description.append([])
+            nodes_description.append(node_xml.attrib['category'])
+
+            # Read all the connections
+            for connection_xml in node_xml.findall('Connection'):
+                node_connection = int(connection_xml.find('NodeID').text)
+                link_xml = connection_xml.find('Link')
+
+                # Save the type information and check if is correct
+                if link_xml.attrib['category'] == 'wired':
+                    link_str = 'w'
+                elif link_xml.attrib['category'] == 'wireless':
+                    link_str = 'x'
+                else:
+                    raise TypeError('The type of the link is not wired neither wireless')
+
+                # Save the speed of the link and convert it to MB/s (standard used in the Network Class)
+                speed_xml = link_xml.find('Speed')
+                speed = int(speed_xml.text)
+                if speed_xml.attrib['unit'] == 'KB/s':  # Convert the speed if is in KB/s
+                    speed /= 1000
+                if speed_xml.attrib['unit'] == 'GB/s':  # Convert the speed if is in GB/s
+                    speed *= 1000
+                link_str += str(speed)
+
+                network_description[-1].append([node_connection, link_str])
+
+        return network_description, nodes_description
+
+    def __read_network_topology(self, configuration):
         """
         Returns the network description (including the link description if exist) from the xml file
         :param configuration: path and name of the xml configuration file
         :type configuration: str
         :return: strings with the network description and the link description (formatted to work in the network
         function)
-        :rtype: list of str
+        If the topology has cycles, returns a matrix with list of [1, str]
+        :rtype: str, str, list of [int, str]
         """
         # Open the file if exists
         try:
@@ -654,6 +813,9 @@ class Network:
 
         # Read all the bifurcations of the topology
         bifurcations_xml = root.findall('Topology/Description/Bifurcation')
+        if not bifurcations_xml:    # If there is not bifurcation, it is the new cyclic network description
+            network_matrix, nodes_information = self.__read_cyclic_network_topology(configuration)
+            return None, None, network_matrix, nodes_information
 
         # Initialize strings to be returned with the description
         network_description_line = ''
@@ -702,9 +864,9 @@ class Network:
         # Return the description string, and the link description string if exists, we do not return the last character
         # of the string as it is a useless ';'
         if not links_found:
-            return network_description_line[0:-1], None
+            return network_description_line[0:-1], None, None, None
         else:
-            return network_description_line[0:-1], link_info_line[0:-1]
+            return network_description_line[0:-1], link_info_line[0:-1], None, None
 
     @staticmethod
     def __read_traffic_information(configuration):
@@ -935,7 +1097,7 @@ class Network:
             for receiver in frame.get_receivers():      # Every path is from the sender to one of the frame receivers
                 path_str = ''
                 paths.append([])                        # Init the current path
-                for link in self.__paths[frame.get_sender()][receiver]:     # For all links in the path
+                for link in frame.get_path_receiver(receiver):              # For all links in the path
                     path_str += str(link) + ';'
                     paths[-1].append(link)              # Save the link to calculate the split later on
                 Xml.SubElement(paths_xml, 'Path').text = path_str[:-1]      # Save the path once finished

@@ -29,10 +29,6 @@ struct timeval start_time_total, end_time_total;                // Total time
 
 /**
  Calculates the time difference in ms
-
- @param x starting time
- @param y ending time
- @return time difference in ms
  */
 double time_diff(struct timeval x , struct timeval y) {
     
