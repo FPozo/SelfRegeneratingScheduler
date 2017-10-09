@@ -18,7 +18,31 @@ context_t *logical_context;             // Yices context where the constraints a
 model_t *schedule_model;                // Model where to save the solution that yices find when the context is SAT
 ctx_config_t *context_configuration;    // Configuration of the context to synthesize schedules faster
 
+int create_offset_counter = 0;
+int path_dependent_counter = 0;
+int end_to_end_counter = 0;
+int contention_free_counter = 0;
+int fixed_distance_counter = 0;
+
                                                 /* AUXILIAR FUNCTIONS */
+
+/**
+ Prints the needed constraint formulas and the amount of bytes to send all the schedule constraints
+ */
+void bytes_needed() {
+    
+    int bytes = 0;
+    
+    printf("Number Create Constraints Formulas: %d\n", create_offset_counter);
+    printf("Number Path Dependent Formulas: %d\n", path_dependent_counter);
+    printf("Number End to End Formulas: %d\n", end_to_end_counter);
+    printf("Number Contention Free Formulas: %d\n", contention_free_counter);
+    printf("Number Set Fixed Formulas: %d\n", fixed_distance_counter);
+    
+    bytes = (create_offset_counter * 12) + (path_dependent_counter * 11) + (end_to_end_counter * 11) +
+        (contention_free_counter * 15) + (fixed_distance_counter * 8);
+    printf("Bytes needed to send the Schedule: %d\n", bytes);
+}
 
 /**
  Returns 1 if there is any number that is shared between the two given intervals
@@ -33,7 +57,7 @@ int share_time_interval(long long int min1, long long int max1, long long int mi
     
     // if the first interval starts before and the second interval starts before the first ends
     // or if the second interval starts before and the first interval starts before the second ends
-    if ((min1 <= min2 && min2 <= max1) || (min2 <= min1 && min1 <= max2)) {
+    if ((min1 <= min2 && min2 < max1) || (min2 <= min1 && min1 < max2)) {
         return 1;
     }
     return 0;
@@ -57,14 +81,20 @@ int offsets_share_interval(Frame *frame1_pt, Offset *offset1_pt, int instance1, 
                            Offset *offset2_pt, int instance2, int replica2) {
     
     long long int period1, period2;         // Periods of the given offsets
+    long long int deadline1, deadline2;     // Deadlines of the given offsets
+    long long int starting1, starting2;     // Starting of the given offsets
     long long int min1, max1, min2, max2;   // Time intervals of both offsets
     
     period1 = get_period(frame1_pt);
     period2 = get_period(frame2_pt);
-    min1 = (period1 * instance1) + 1;       // Minimum is the period * the number of instance, +1 to avoid 0
-    max1 = period1 * (instance1 + 1);       // Maximum is the period * (next instance) - 1, +1 to avoid 0
-    min2 = (period2 * instance2) + 1;
-    max2 = period2 * (instance2 + 1);
+    deadline1 = get_deadline(frame1_pt);
+    deadline2 = get_deadline(frame2_pt);
+    starting1 = get_starting(frame1_pt);
+    starting2 = get_starting(frame2_pt);
+    min1 = (period1 * instance1) + starting1 + 1;       // Minimum is the period * the number of instance, +1 to avoid 0
+    max1 = (period1 * instance1) + deadline1 + 1;       // Maximum is the period * (next instance) - 1, +1 to avoid 0
+    min2 = (period2 * instance2) + starting2 + 1;
+    max2 = (period2 * instance2) + deadline2 + 1;
     
     // Compare with function
     if (share_time_interval(min1, max1, min2, max2) == 1) {
@@ -464,6 +494,7 @@ int create_offset_variables(Solver csolver) {
     long long int distance;             // To calculate the distance between instance 0, replica 0 and others
     long long int transmission_time;    // Time for a frame needed to be transmitted in a specific link
     long long int maximum_time;         // Maximum time allowed to start the transmission of an offset
+    long long int minimum_time;         // Minimum time allowed to start the transmission of an offset
     int num_frames;                     // Number of oframes to create constraints
     
     // If the protocol is active, we only create frames for number of frames -1 (we avoid the fake frame)
@@ -494,6 +525,7 @@ int create_offset_variables(Solver csolver) {
                     if (instance != 0 || replica != 0) {
                         // Set the instances and replicas > 1 to be related to the instance 0 replica 0
                         distance = period * instance;
+                        fixed_distance_counter += 1;
                         if (set_fixed_distance(offset_it, 0, 0, offset_it, instance, replica, distance,
                                                csolver) == -1) {
                             printf("Error when setting the distance between different instances and replicas\n");
@@ -506,7 +538,9 @@ int create_offset_variables(Solver csolver) {
             // instance 0, replica 0, as the time between different instances and replicas are related to the 0, 0
             // We need to extract the transmission time of the offset to the deadline to allow it to finish before
             maximum_time = get_deadline(frame_pt) - transmission_time;
-            if (set_offset_range(offset_it, 0, 0, 0, maximum_time, csolver) == -1) {
+            minimum_time = get_starting(frame_pt);
+            create_offset_counter += 1;
+            if (set_offset_range(offset_it, 0, 0, minimum_time, maximum_time, csolver) == -1) {
                 printf("Error when setting the offset range creating the offset variable\n");
                 return -1;
             }
@@ -559,11 +593,12 @@ int contention_free(Solver csolver) {
                                                                previous_frame_pt, previous_offset_it, previous_instance,
                                                                previous_replica)) {
                                         // Add the constraint to avoid the offsets to collide
+                                        contention_free_counter += 1;
                                         if (avoid_intersection(offset_it, instance, replica, previous_offset_it,
                                                                previous_instance, previous_replica,
-                                                               get_timeslot_size(offset_it) + time_between_frames,
+                                                               get_timeslot_size(offset_it) + time_between_frames - 1,
                                                                get_timeslot_size(previous_offset_it) +
-                                                               time_between_frames, csolver) == -1) {
+                                                               time_between_frames - 1, csolver) == -1) {
                                             printf("Error when doing contention free constraints\n");
                                             return -1;
                                         }
@@ -604,6 +639,7 @@ int frame_path_dependent(Solver csolver) {
                 path_it = get_next_path(path_it);           // Get the next link on the path
                 if (!is_last_path(path_it)) {               // If it is not the last one, add the constraint
                     next_path_offset_pt = get_offset_from_path(path_it);
+                    path_dependent_counter += 1;
                     if (set_minimum_distance(offset_pt, 0, 0, next_path_offset_pt, 0, 0, distance, csolver) == -1) {
                         printf("Error when doing path dependent constraints\n");
                         return -1;
@@ -646,6 +682,7 @@ int frame_end_to_end_delay(Solver cssolver) {
             // Get the last link offset and calculate the distance as the delay - the time to transmit last link
             last_offset_pt = get_offset_from_path(last_path);
             distance = delay - get_timeslot_size(last_offset_pt);
+            end_to_end_counter += 1;
             if (set_maximum_distance(first_offset_pt, 0, 0, last_offset_pt, 0, 0, distance, cssolver) == -1) {
                 printf("Error when doing end to end delay constraints\n");
                 return -1;
@@ -666,6 +703,7 @@ int check_solver(Solver csolver) {
             if (yices_check_context(logical_context, NULL) == STATUS_SAT) {
                 schedule_model = yices_get_model(logical_context, 1);       // Get the model with the schedule
                 //yices_pp_model(stdout, schedule_model, 80, 1000, 1);        // Debug print model
+                bytes_needed();
                 return 1;
             }
             return -1;

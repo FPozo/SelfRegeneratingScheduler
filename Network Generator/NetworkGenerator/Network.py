@@ -1087,6 +1087,7 @@ class Network:
             frame_xml = Xml.SubElement(frames_xml, 'Frame')
             Xml.SubElement(frame_xml, 'ID').text = str(index)
             Xml.SubElement(frame_xml, 'Period').text = str(frame.get_period())
+            Xml.SubElement(frame_xml, 'Starting').text = str(frame.get_starting())
             Xml.SubElement(frame_xml, 'Deadline').text = str(frame.get_deadline())
             Xml.SubElement(frame_xml, 'Size').text = str(frame.get_size())
             Xml.SubElement(frame_xml, 'EndToEnd').text = str(frame.get_end_to_end())

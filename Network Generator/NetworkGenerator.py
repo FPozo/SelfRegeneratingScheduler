@@ -9,7 +9,7 @@ def test():
     network.create_network()
     network.write_network_xml('../Networks/auto.xml')
     end_time = datetime.datetime.utcnow()
-    print('Time check schedule in ms => ' + str((end_time - start_time).total_seconds() * 1000))
+    print('Time build network in ms => ' + str((end_time - start_time).total_seconds() * 1000))
 
 
 test()

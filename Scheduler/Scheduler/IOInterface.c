@@ -310,7 +310,7 @@ int read_frames(xmlDoc *file) {
     xmlXPathObjectPtr result, result_frame = NULL;
     
     // Init variables for the general information of a frame
-    long long int period, deadline, end_to_end_delay;
+    long long int period, deadline, end_to_end_delay, starting;
     int size;
     
     // Search on the xml tree where the frames are stored
@@ -356,8 +356,16 @@ int read_frames(xmlDoc *file) {
         xmlFree(value);
         xmlXPathFreeObject(result_frame);
         
+        // Search the end to end delay of the current frame
+        result_frame = xmlXPathEvalExpression((xmlChar*) "Starting", context_frame);
+        value = xmlNodeListGetString(file, result_frame->nodesetval->nodeTab[0]->xmlChildrenNode, 1);
+        starting = atoi((const char*) value);
+        // Free xml structures
+        xmlFree(value);
+        xmlXPathFreeObject(result_frame);
+        
         // Add the information to the frame
-        add_frame_information(i, period, deadline, size, end_to_end_delay);
+        add_frame_information(i, period, deadline, size, end_to_end_delay, starting);
         
         // Search and store all the paths and splits (Important to call after adding information due to dependencies)
         read_paths(i, file, context_frame);

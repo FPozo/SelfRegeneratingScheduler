@@ -69,6 +69,7 @@ typedef struct Frame {
     long long int period;               // Period of the frame in ns
     long long int deadline;             // Deadline of the frame in ns
     long long int end_to_end_delay;     // Maximum end to end delay from a frame being sent to being received
+    long long int starting;             // Starting time of the frame in ns
     Path *path_array_ls;                // Array of root pointers to the path linked list (size is num_paths)
     int num_paths;                      // Number of paths in the frame
     Split *split_array_ls;              // Array of root pointers to the split linked list (size is num_splits)
@@ -160,6 +161,22 @@ long long int get_end_to_end_delay(Frame *frame_pt);
  @param delay long long int with the desired end to end delay
  */
 void set_end_to_end_delay(Frame *frame_pt, long long int delay);
+
+/**
+ Get the starting time of the given frame
+
+ @param frame_pt pointer to the frame
+ @return long long int with the starting time
+ */
+long long int get_starting(Frame *frame_pt);
+
+/**
+ Set the starting time of the given frame
+
+ @param frame_pt pointer to the frame
+ @param starting long long in with the desired starting time
+ */
+void set_starting(Frame *frame_pt, long long int starting);
 
 /**
  Get the number of instances of the offset

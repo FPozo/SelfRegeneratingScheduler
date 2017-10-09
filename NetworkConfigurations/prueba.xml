@@ -129,7 +129,7 @@
     </Topology>
     <Traffic>
         <TrafficInformation>
-            <NumberFrames>10</NumberFrames>
+            <NumberFrames>30</NumberFrames>
             <Single>0.5</Single>
             <Local>0.0</Local>
             <Multiple>0.3</Multiple>

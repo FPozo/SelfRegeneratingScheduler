@@ -144,6 +144,22 @@ void set_end_to_end_delay(Frame *frame_pt, long long int delay) {
 }
 
 /**
+ Get the starting time of the given frame
+ */
+long long int get_starting(Frame *frame_pt) {
+    
+    return frame_pt->starting;
+}
+
+/**
+ Set the starting time of the given frame
+ */
+void set_starting(Frame *frame_pt, long long int starting) {
+    
+    frame_pt->starting = starting;
+}
+
+/**
  Get the number of instances of the offset
  */
 int get_number_instances(Offset *offset_pt) {

@@ -117,9 +117,11 @@ int add_link(int link_id, int speed, LinkType link_type);
  @param deadline long long int of the deadline in ns
  @param size int of the size in bytes
  @param delay long long int of the end to end delay in ns
+ @param starting long long int of the starting time of the frame in ns
  @return 0 if done correctly, -1 if index out of array of frames
  */
-int add_frame_information(int frame_id, long long int period, long long int deadline, int size, long long int delay);
+int add_frame_information(int frame_id, long long int period, long long int deadline, int size, long long int delay,
+                          long long int starting);
 
 /**
  Add the number of paths to the frame

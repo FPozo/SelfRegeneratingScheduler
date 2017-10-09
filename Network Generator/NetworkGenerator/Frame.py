@@ -24,13 +24,14 @@ class Frame:
     __receivers = []                        # List of end systems receivers id of the frame
     __path = []                             # List of list indexes of the links to arrive from a sender to a receiver
     __size = None                           # Size of the frame in bytes (Frame Standard between 72 and 1526 bytes)
+    __starting = None                       # Staring time in nanoseconds of the frame
     __period = None                         # Period in nanoseconds of the frame
     __deadline = None                       # Deadline in nanoseconds of the frame (if 0 => same as period)
     __end_to_end = None                     # End to end constraint in nanoseconds of the frame
 
     # Standard function definitions #
 
-    def __init__(self, sender, receivers, period=None, deadline=None, size=None):
+    def __init__(self, sender, receivers, period=None, deadline=None, size=None, starting=0):
         """
         Initialization of the needed values of a time-triggered frame
         :param sender: end system sender id
@@ -43,6 +44,8 @@ class Frame:
         :type deadline: int
         :param size: size in bytes of the frame, recommended between 72 and 1526 (Ethernet standard)
         :type size: int
+        :param starting: starting in nanoseconds
+        :type starting:int
         """
         self.__sender = sender
         self.__receivers = receivers
@@ -52,6 +55,7 @@ class Frame:
         else:
             self.__deadline = deadline
         self.__size = size
+        self.__starting = starting
 
     def __str__(self):
         """
@@ -158,6 +162,24 @@ class Frame:
             self.__deadline = self.__period
         else:
             self.__deadline = deadline
+
+    def get_starting(self):
+        """
+        Get the starting time
+        :return: starting time in nanoseconds
+        :rtype: int
+        """
+        return self.__starting
+
+    def set_starting(self, starting):
+        """
+        Set the starting
+        :param starting: starting in nanoseconds
+        :type starting: int
+        :return: nothing
+        :rtype: None
+        """
+        self.__starting = starting
 
     def get_size(self):
         """

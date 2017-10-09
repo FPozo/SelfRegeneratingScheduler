@@ -128,7 +128,8 @@ int add_link(int link_id, int speed, LinkType link_type) {
 /**
  Adds to the given index frame the general information of the period, deadline and size in the frame array
  */
-int add_frame_information(int frame_id, long long int period, long long int deadline, int size, long long int delay) {
+int add_frame_information(int frame_id, long long int period, long long int deadline, int size, long long int delay,
+                          long long int starting) {
     
     // Check if it fits in the frame array
     if (frame_id >= num_frames) {
@@ -141,6 +142,7 @@ int add_frame_information(int frame_id, long long int period, long long int dead
     set_deadline(&frames[frame_id], deadline);
     set_size(&frames[frame_id], size);
     set_end_to_end_delay(&frames[frame_id], delay);
+    set_starting(&frames[frame_id], starting);
     
     // Init also the hash array to accelerate links search
     init_hash(&frames[frame_id], num_links);
@@ -213,7 +215,7 @@ void initialize_protocol(void) {
     if (protocol_period != 0) {
         num_frames++;
         frames = realloc(frames, sizeof(Frame) * num_frames);   // Allocate space for the new fake frame
-        add_frame_information(num_frames - 1, protocol_period, protocol_period, 0, protocol_time + 1);
+        add_frame_information(num_frames - 1, protocol_period, protocol_period, 0, protocol_time + 1, 0);
         add_num_paths(num_frames - 1, num_links);               // As many paths as links
         for (int i = 0; i < num_links; i++) {
             path[0] = i;
