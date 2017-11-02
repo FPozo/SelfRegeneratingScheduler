@@ -75,7 +75,8 @@ typedef struct Frame {
     Split *split_array_ls;              // Array of root pointers to the split linked list (size is num_splits)
     int num_splits;                     // Number of splits in the frame
     Offset *offset_ls;                  // Pointer to the roof of the offsets linked list
-    Offset **offset_hash;               // Array that stores the offsets with index the link identifier (to accelerate)
+    // Offset **offset_hash;            // Array that stores the offsets with index the link identifier (to accelerate)
+    Offset **offset_hash;
 }Frame;
 
                                                 /* CODE DEFINITIONS */

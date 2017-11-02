@@ -254,7 +254,7 @@ void initialize_network(void) {
             if (get_size(&frames[i]) == 0) {
                 time = (int)protocol_time;
             } else {
-                time = (get_size(&frames[i]) * 1000000) / get_link_speed(&links[get_offset_link(offset_it)]);
+                time = (get_size(&frames[i]) * 1000) / get_link_speed(&links[get_offset_link(offset_it)]);
             }
             set_timeslot_size(offset_it, time);
             

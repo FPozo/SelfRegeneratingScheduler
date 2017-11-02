@@ -292,7 +292,7 @@ int set_fixed_distance(Offset *offset1_pt, int instance1, int replica1, Offset *
             y_add = yices_sub(get_yices_offset(offset1_pt, instance1, replica1), y_integer);
             // Equal the distance with offset 2
             y_formula = yices_arith_eq_atom(get_yices_offset(offset2_pt, instance2, replica2), y_add);
-            //yices_pp_term(stdout, y_formula, 80, 1, 0);     // Printing of the formula, remove after debugging
+            // yices_pp_term(stdout, y_formula, 80, 1, 0);     // Printing of the formula, remove after debugging
             if (yices_assert_formula(logical_context, y_formula) == -1) {
                 printf("Error asserting distance between two offsets in yices2\n");
                 return -1;
@@ -336,7 +336,7 @@ int set_minimum_distance(Offset *offset1_pt, int instance1, int replica1, Offset
             y_add = yices_sub(get_yices_offset(offset1_pt, instance1, replica1), y_integer);
             // Less than with the offset2 (greather or equal because schedule is inverted)
             y_formula = yices_arith_geq_atom(y_add, get_yices_offset(offset2_pt, instance2, replica2));
-            //yices_pp_term(stdout, y_formula, 80, 1, 0);     // Printing of the formula, remove after debugging
+            // yices_pp_term(stdout, y_formula, 80, 1, 0);     // Printing of the formula, remove after debugging
             if (yices_assert_formula(logical_context, y_formula) == -1) {
                 printf("Error asserting minimum distance between two offsets in yices2\n");
                 return -1;
@@ -379,7 +379,7 @@ int set_maximum_distance(Offset *offset1_pt, int instance1, int replica1, Offset
             y_add = yices_sub(get_yices_offset(offset1_pt, instance1, replica1), y_integer);
             // Greater or equal with the offset2 (less than because schedule is inverted)
             y_formula = yices_arith_lt_atom(y_add, get_yices_offset(offset2_pt, instance2, replica2));
-            //yices_pp_term(stdout, y_formula, 80, 1, 0);     // Printing of the formula, remove after debugging
+            // yices_pp_term(stdout, y_formula, 180, 1, 0);     // Printing of the formula, remove after debugging
             if (yices_assert_formula(logical_context, y_formula) == -1) {
                 printf("Error asserting maximum distance between two offsets in yices2\n");
                 return -1;

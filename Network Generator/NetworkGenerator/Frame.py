@@ -31,7 +31,7 @@ class Frame:
 
     # Standard function definitions #
 
-    def __init__(self, sender, receivers, period=None, deadline=None, size=None, starting=0):
+    def __init__(self, sender, receivers, period=None, deadline=None, size=None, starting=0, end_to_end=None):
         """
         Initialization of the needed values of a time-triggered frame
         :param sender: end system sender id
@@ -46,6 +46,8 @@ class Frame:
         :type size: int
         :param starting: starting in nanoseconds
         :type starting:int
+        :param end_to_end: end to end time of the frame in nanoseconds
+        :type end_to_end: int
         """
         self.__sender = sender
         self.__receivers = receivers
@@ -56,6 +58,7 @@ class Frame:
             self.__deadline = deadline
         self.__size = size
         self.__starting = starting
+        self.__end_to_end = end_to_end
 
     def __str__(self):
         """
@@ -67,6 +70,7 @@ class Frame:
         return_text += "    Sender id     : " + str(self.__sender) + "\n"
         return_text += "    Receivers ids : " + str(self.__receivers) + "\n"
         return_text += "    Period        : " + str(self.__period) + " nanoseconds\n"
+        return_text += "    Starting      : " + str(self.__starting) + " nanoseconds\n"
         return_text += "    Deadline      : " + str(self.__deadline) + " nanoseconds\n"
         return_text += "    Size          : " + str(self.__size) + " bytes"
         return return_text
@@ -86,6 +90,14 @@ class Frame:
         :rtype: list of int
         """
         return self.__receivers
+
+    def get_paths(self):
+        """
+        Get the path matrix of the frame
+        :return: the path matrix
+        :rtype: list of list of int
+        """
+        return self.__path
 
     def get_path_receiver(self, receiver):
         """
@@ -123,6 +135,42 @@ class Frame:
                 if link == path_link:
                     return True
         return False
+
+    def get_link_predecessor(self, link):
+        """
+        Get the link predecessor of a given link in the path of the frame
+        :param link: link identifier
+        :type link: int
+        :return: link identifier, -1 if is the first link, -2 if not found
+        :rtype: int
+        """
+        # For all paths, search if the given link is in the path
+        for path in self.__path:
+            previous_link = -1          # We store the previous link to return if we found the link
+            for path_link in path:
+                if path_link == link:   # If we found it, return the previous link, if not, continue
+                    return previous_link
+                previous_link = path_link
+        return -2
+
+    def get_link_successor(self, link):
+        """
+        Get the link successor of a given link in the path of the frame
+        :param link: link identifier
+        :type link: int
+        :return: link identifier, -1 if is the last link, -2 if not found
+        :rtype: int
+        """
+        # For all paths, search if the given link is in the path
+        for path in self.__path:
+            found_link = False          # If we found the link, see if there are next link
+            for path_link in path:
+                if found_link:          # If the previous link was the same as the given link, this is the successor
+                    return path_link
+                if path_link == link:   # If we find the given link, if is not the last link of the path, continue
+                    if path[-1] != link:
+                        found_link = True
+        return -1                       # Is the last link of the path
 
     def get_period(self):
         """

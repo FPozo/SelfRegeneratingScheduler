@@ -2,10 +2,10 @@
 <NetworkGenerator>
     <Topology>
         <TopologyInformation>
-            <MinTimeSwitch unit="ns">0</MinTimeSwitch>
+            <MinTimeSwitch unit="ns">10000</MinTimeSwitch>
             <PeriodProtocol unit="ns">10000000</PeriodProtocol>
             <TimeProtocol unit="ns">1000</TimeProtocol>
-            <TimeBetweenFrames unit="ns">1000</TimeBetweenFrames>
+            <TimeBetweenFrames unit="ns">10000</TimeBetweenFrames>
         </TopologyInformation>
         <Description>
             <Node category="switch">

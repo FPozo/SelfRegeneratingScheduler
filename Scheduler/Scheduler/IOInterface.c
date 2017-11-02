@@ -214,7 +214,7 @@ void read_paths(int frame_id, xmlDoc *file, xmlXPathContextPtr context_frame) {
     // Auxiliar variables to convert the path string to array of integers
     char *link_char;
     int link_char_it;
-    int *path_array;
+    int *path_array = NULL;
     
     // Search on the frame tree all paths
     result_frame = xmlXPathEvalExpression((xmlChar*) "Paths/Path", context_frame);
@@ -230,12 +230,11 @@ void read_paths(int frame_id, xmlDoc *file, xmlXPathContextPtr context_frame) {
         // Parse the string into an array and save it into the frame
         link_char = strtok((char*) value, ";");
         link_char_it = 0;
-        path_array = malloc(sizeof(int));
         while (link_char != NULL) {
+            path_array = realloc(path_array, sizeof(int) * (link_char_it + 1));     // Allocate memory for the link
             path_array[link_char_it] = atoi(link_char);
             link_char = strtok(NULL, ";");
             link_char_it++;
-            path_array = realloc(path_array, sizeof(int) * (link_char_it + 1));     // Allocate memory for next link
         }
         add_frame_path(frame_id, i, path_array, link_char_it);          // Add the found path to the frame
         
@@ -263,7 +262,7 @@ void read_splits(int frame_id, xmlDoc *file, xmlXPathContextPtr context_frame) {
     // Auxiliar variables to convert the path string to array of integers
     char *link_char;
     int link_char_it;
-    int *split_array;
+    int *split_array = NULL;
     
     // Search on the frame tree all paths
     result_frame = xmlXPathEvalExpression((xmlChar*) "Splits/Split", context_frame);
@@ -279,12 +278,11 @@ void read_splits(int frame_id, xmlDoc *file, xmlXPathContextPtr context_frame) {
         // Parse the string into an array and save it into the frame
         link_char = strtok((char*) value, ";");
         link_char_it = 0;
-        split_array = malloc(sizeof(int));
         while (link_char != NULL) {
+            split_array = realloc(split_array, sizeof(int) * (link_char_it + 1));   // Allocate memory for the link
             split_array[link_char_it] = atoi(link_char);
             link_char = strtok(NULL, ";");
             link_char_it++;
-            split_array = realloc(split_array, sizeof(int) * (link_char_it + 1));   // Allocate memory for next link
         }
         add_frame_split(frame_id, i, split_array, link_char_it);                    // Add the found path to the frame
         
@@ -430,7 +428,7 @@ int write_schedule_xml(char* namefile) {
     
     // Init xml variables needed to search informantion in the file
     xmlDocPtr doc;
-    xmlNodePtr root_node, frames_node, frame_node, path_node, instance_node;
+    xmlNodePtr root_node, frames_node, frame_node, path_node, link_node, instance_node;
     char char_value[100];
     int num_frames;
     Offset *offset_it;
@@ -458,6 +456,8 @@ int write_schedule_xml(char* namefile) {
         xmlNewChild(frame_node, NULL, BAD_CAST "FrameID", BAD_CAST char_value);
         sprintf(char_value, "%lld", get_period(frame_pt));
         xmlNewChild(frame_node, NULL, BAD_CAST "Period", BAD_CAST char_value);
+        sprintf(char_value, "%lld", get_starting(frame_pt));
+        xmlNewChild(frame_node, NULL, BAD_CAST "Starting", BAD_CAST char_value);
         sprintf(char_value, "%lld", get_deadline(frame_pt));
         xmlNewChild(frame_node, NULL, BAD_CAST "Deadline", BAD_CAST char_value);
         sprintf(char_value, "%d", get_size(frame_pt));
@@ -474,11 +474,12 @@ int write_schedule_xml(char* namefile) {
             while (!is_last_path(path_it)) {
                 offset_it = get_offset_from_path(path_it);
                 sprintf(char_value, "%d", get_offset_link(offset_it));
-                xmlNewChild(path_node, NULL, BAD_CAST "LinkID", BAD_CAST char_value);
+                link_node = xmlNewChild(path_node, NULL, BAD_CAST "Link", NULL);
+                xmlNewChild(link_node, NULL, BAD_CAST "LinkID", BAD_CAST char_value);
                 
                 // Write the transmission time of every instance
                 for (int h = 0; h < get_number_instances(offset_it); h++) {
-                    instance_node = xmlNewChild(path_node, NULL, BAD_CAST "Instance", NULL);
+                    instance_node = xmlNewChild(link_node, NULL, BAD_CAST "Instance", NULL);
                     sprintf(char_value, "%d", h);
                     xmlNewChild(instance_node, NULL, BAD_CAST "InstanceID", BAD_CAST char_value);
                     sprintf(char_value, "%lld", get_offset(offset_it, h, 0));

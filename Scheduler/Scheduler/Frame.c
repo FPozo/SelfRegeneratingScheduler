@@ -36,6 +36,8 @@ Offset * add_new_offset(Offset *offset_pt, int link) {
     if (offset_pt->link != link) {
         offset_pt->link = link;
         offset_pt->offset = 0;
+        offset_pt->num_instances = 0;
+        offset_pt->num_replicas = 0;
         offset_pt->next_offset_pt = malloc(sizeof(Offset));     // We create the next offset as empty
         offset_pt->next_offset_pt->next_offset_pt = NULL;
         offset_pt->next_offset_pt->link = -1;                   // Just in case to control the link value
@@ -72,6 +74,7 @@ int init_hash(Frame *frame_pt, int num_links) {
         return -1;
     }
     
+    // frame_pt->offset_hash = malloc(sizeof(Offset *) * num_links);
     frame_pt->offset_hash = malloc(sizeof(Offset *) * num_links);
     for (int i = 0; i < num_links; i++) {
         frame_pt->offset_hash[i] = NULL;
@@ -285,6 +288,7 @@ void set_num_paths(Frame *frame_pt, int num_paths) {
     frame_pt->num_paths = num_paths;
     frame_pt->path_array_ls = malloc(sizeof(Path) * num_paths);     // Allocate memory for all the paths roots
     frame_pt->offset_ls = malloc(sizeof(Offset));                   // We can start allocating for the offsets too
+    frame_pt->offset_ls->link = -1;
     frame_pt->offset_ls->next_offset_pt = NULL;                     // Just in case
     
 }
