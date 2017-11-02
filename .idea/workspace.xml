@@ -2,41 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d62a55f5-dbed-4f04-9c38-aca349aaf3d6" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Networks/prueba.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Networks/pruebar oiginal.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Evaluator/.idea/Evaluator.iml" afterPath="$PROJECT_DIR$/Evaluator/.idea/Evaluator.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Evaluator/.idea/misc.xml" afterPath="$PROJECT_DIR$/Evaluator/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Evaluator/.idea/modules.xml" afterPath="$PROJECT_DIR$/Evaluator/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Evaluator/.idea/workspace.xml" afterPath="$PROJECT_DIR$/Evaluator/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Network Generator/Network Generator.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Network Generator/Network Generator.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Network Generator/NetworkGenerator.py" afterPath="$PROJECT_DIR$/Network Generator/NetworkGenerator.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Frame.py" afterPath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Frame.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Link.py" afterPath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Link.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Network.py" afterPath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Network.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Node.py" afterPath="$PROJECT_DIR$/Network Generator/NetworkGenerator/Node.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Network Generator/NetworkGenerator/__init__.py" afterPath="$PROJECT_DIR$/Network Generator/NetworkGenerator/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NetworkConfigurations/prueba.xml" afterPath="$PROJECT_DIR$/NetworkConfigurations/prueba.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Networks/auto.xml" afterPath="$PROJECT_DIR$/Networks/auto.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Networks/schedule.xml" afterPath="$PROJECT_DIR$/Networks/schedule.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Scheduler/Scheduler.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/ConstraintSolver.c" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/ConstraintSolver.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/ConstraintSolver.h" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/ConstraintSolver.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Frame.c" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Frame.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Frame.h" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Frame.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/IOInterface.c" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/IOInterface.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/IOInterface.h" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/IOInterface.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Link.c" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Link.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Link.h" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Link.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Network.c" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Network.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Network.h" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Network.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Synthesizer.c" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Synthesizer.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/Synthesizer.h" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/Synthesizer.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scheduler/Scheduler/main.c" afterPath="$PROJECT_DIR$/Scheduler/Scheduler/main.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterPath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/project.xcworkspace/contents.xcworkspacedata" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/xcuserdata/fpo01.xcuserdatad/xcschemes/Self-Regenerating Scheduler.xcscheme" afterPath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/xcuserdata/fpo01.xcuserdatad/xcschemes/Self-Regenerating Scheduler.xcscheme" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/xcuserdata/fpo01.xcuserdatad/xcschemes/xcschememanagement.plist" afterPath="$PROJECT_DIR$/Self-Regenerating Scheduler.xcodeproj/xcuserdata/fpo01.xcuserdatad/xcschemes/xcschememanagement.plist" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SelfRegSched.py" afterPath="$PROJECT_DIR$/SelfRegSched.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Self-Regenerating Scheduler.iml" afterPath="$PROJECT_DIR$/.idea/Self-Regenerating Scheduler.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -56,9 +24,11 @@
       <file leaf-file-name="Evaluator.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Evaluator/Evaluator/Evaluator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="22" column="16" lean-forward="true" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-              <folding />
+            <state relative-caret-position="281">
+              <caret line="474" column="72" lean-forward="true" selection-start-line="474" selection-start-column="72" selection-end-line="474" selection-end-column="72" />
+              <folding>
+                <element signature="e#1742#1786#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,11 +51,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1918" />
-    <option name="y" value="24" />
-    <option name="width" value="1909" />
-    <option name="height" value="1172" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-1920" />
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1177" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -124,7 +94,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -135,24 +104,20 @@
             <path>
               <item name="Self-Regenerating Scheduler" type="b2602c69:ProjectViewProjectNode" />
               <item name="Self-Regenerating Scheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="Network Generator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Self-Regenerating Scheduler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Self-Regenerating Scheduler" type="462c0819:PsiDirectoryNode" />
-              <item name="Self-Regenerating Scheduler.xcodeproj" type="462c0819:PsiDirectoryNode" />
+              <item name="Evaluator" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -223,6 +188,16 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Evaluator/Evaluator/Evaluator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1742#1786#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Evaluator/EvaluatorCaller.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -241,9 +216,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Evaluator/Evaluator/Evaluator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="22" column="16" lean-forward="true" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-          <folding />
+        <state relative-caret-position="281">
+          <caret line="474" column="72" lean-forward="true" selection-start-line="474" selection-start-column="72" selection-end-line="474" selection-end-column="72" />
+          <folding>
+            <element signature="e#1742#1786#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
